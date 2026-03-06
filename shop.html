@@ -28,7 +28,7 @@
 <meta property="og:image:width" content="1024" />
 <meta property="og:image:height" content="512" />
 
-<title>About - The Linear Clock</title>
+<title>Shop - The Linear Clock</title>
 
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -78,17 +78,14 @@
     <div class="navbar-text navbar-right hidden-xs"></div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="demo.html" target="_blank">Try Demo</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/demo" target="_blank">Try Demo</a></li>
       </ul>
     </div>
   </div>
 </nav>
-  
-  
-          
           
           <!-- content -->
 
@@ -97,53 +94,98 @@
               <div class="row">
                 <div class="col-md-8 col-md-offset-2">
 
-        <h1>About</h1>
-		<p>Hey, I'm <a href="http://roblafratta.com/" target="_blank" title="Rob Lafratta Product Designer">Rob Lafratta</a>, the designer of Linear Clock. It's a side project of mine that I originally sketched in 2015. Inspired by vintage analog radios, and hotel elevator indicators, I wanted to experiment with the idea of displaying time in a line, rather than the conventional circle.</p>
+        <h1>Shop</h1>
+		<p>Thinking about getting one? The Linear Clock is still only a concept, but your interest helps decide whether to launch it for real. Sign up to show your support!</p>
 		
-		<p><img src="images/linear-original-sketch-2015.png" alt="The Linear Clock Original Sketch 2015"></p>
-		<p class="caption">Original sketch from 2015</p>
-		
-		<p>Keeping the clock face minimal and simple, the idea is to bring calmness to a stressful day. To respect your time.</p> <p>Time doesn't need to be so precise. When someone asks you for the time — do you say "it's 4:27", or do you say "about half 4!"</p>
-		
-		<div class="quote">
-			<h2>"Simplicity is the ultimate sophistication"</h2>
-			<p>— Leonardo da Vinci</p>
-		</div>
-		
-		<p>Linear Clock is a bespoke and minimal design piece that presents a unique aesthetic for a common household product.</p>
-           
-				 <hr>
-              <h1>Inspiration</h1>
-			  <p><a href="https://www.thelightphone.com/" target="_blank" title="The Light Phone">The Light Phone →</a>
-			  <br><a href="https://clockclock.com/" target="_blank" title="Clock Clock">Clock Clock →</a>
-              <br><a href="https://qlocktwo.com/en/" target="_blank" title="Qlock Two">Qlock Two →</a>
-			  <br><a href="https://www.oneclock.co/" target="_blank" title="OneClock">OneClock →</a>
-			 <br><a href="https://cloudnola.com/collections/all-clocks" target="_blank" title="Cloudnola">Cloudnola →</a>
-			 <br><a href="https://mymind.com/" target="_blank" title="My Mind">My Mind →</a></p>
-                  
-					  
-                  
-	                  
-				
-                  
-            
+	    <form id="email-form">
+	      <input type="email" name="email" class="email" placeholder="Enter your email" required />
+	      <button type="submit" id="notify-button">I love it!</button>
+	      <p id="response-message"></p>
+	    </form>
+
+	    <p class="terms">
+	      By signing up, you agree to receive updates about the Linear Clock. You can unsubscribe at any time.
+	      Read our <a href="/privacy" target="_blank">Privacy Policy</a>.
+	    </p>
+
           </div>
         <div class="clearfix"></div>
       </div>
     </div>
   </div>
   
-  <!-- /content --> 
-  
   <!-- image gallery x3 -->
   <div class="container-fluid">
   	<div class="row">
-  		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0s"> <img class="grow" src="images/linear-1.png" alt="The Linear Clock 5"> </div>
-  		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.1s"> <img class="grow" src="images/linear-3.png" alt="The Linear Clock 1"> </div>
-  		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.2s"> <img class="grow" src="images/linear-4.png" alt="The Linear Clock 3"> </div>
+  		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0s"> <img class="grow" src="images/linear-5.png" alt="The Linear Clock 5"> </div>
+  		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.1s"> <img class="grow" src="images/linear-1.png" alt="The Linear Clock 1"> </div>
+  		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.2s"> <img class="grow" src="images/linear-3.png" alt="The Linear Clock 3"> </div>
   	</div>
   </div>
   <!-- / image gallery -->
+  
+  <!-- /content --> 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const button = document.getElementById("notify-button");
+      const form = document.getElementById("email-form");
+
+      if (!button || !form) return;
+
+      const endpoint = "https://script.google.com/macros/s/AKfycbzO7lmY6q5DmwJaqhFCr-ak-dhD5DWuRjHFpOuMkEJgFZ9eypoWvBpCxE9a6znBtf5hfw/exec"; // Replace with your deployed script URL
+      function getSecretToken() {
+        return atob("e3b2f7c38d1441e6a5d0b1efb2c21958"); // Replace with your token
+      }
+
+      button.addEventListener("click", function () {
+        if (typeof gtag === "function") {
+          gtag('event', 'notify_click', {
+            'event_category': 'Signup',
+            'event_label': 'Early Access Form'
+          });
+        }
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = form.email.value;
+        const token = getSecretToken();
+
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("token", token);
+
+        try {
+          const res = await fetch(endpoint, { method: "POST", body: formData });
+          const text = await res.text();
+
+          if (text === "Success" && typeof gtag === "function") {
+            gtag('event', 'notify_submit', {
+              'event_category': 'Signup',
+              'event_label': 'Early Access Form'
+            });
+          }
+
+          document.getElementById("response-message").innerText =
+            text === "Success"
+              ? "Thanks! Your support means a lot!."
+              : text === "Invalid email"
+              ? "Please enter a valid email address."
+              : text === "Unauthorized"
+              ? "Submission blocked. Please try again later."
+              : "Oops! Something went wrong.";
+        } catch (err) {
+          document.getElementById("response-message").innerText = "Error connecting to server.";
+        }
+
+        form.reset();
+      });
+    });
+  </script>
+	
+	
+  
  
 <footer>
   <div class="container-fluid padding-100 text-center grey">
@@ -151,7 +193,7 @@
       <div class="row">
         <div class="col-md-offset-3 col-md-6">
           <div class="footer-logo"><img src="images/logo@2x.png" width="61" height="28"></div>
-          <p><a href="shop.html">Shop</a> · <a href="about.html">About</a> · <a href="privacy.html">Privacy Policy</a></p>
+          <p><a href="/shop">Shop</a> · <a href="/about">About</a> · <a href="/privacy">Privacy Policy</a></p>
           <p><a href="http://instagram.com/thelinearclock" target="_blank" title="Follow on Instagram"><i class="fa fa-instagram fa-lg"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/thelinearclock" target="_blank" title="Follow on Twitter"><i class="fa fa-twitter fa-lg"></i></a></p>
           <p>&copy; <span class="js-current-year">2026</span> All content &amp; design on this website is protected by copyright. The content may not be used without explicit written permission.</p>
         </div>
