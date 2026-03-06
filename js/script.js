@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Default to light theme
   document.body.classList.add("light-theme");
 
+  document.querySelectorAll(".js-current-year").forEach((yearEl) => {
+    yearEl.textContent = new Date().getFullYear();
+  });
+
   function updateClock() {
     const now = new Date();
     const hour24 = now.getHours();
