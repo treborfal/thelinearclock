@@ -9,7 +9,7 @@ include("includes/header.php"); ?>
       <div class="row">
         <div class="col-md-6 col-md-offset-3 text-center animated fadeInUpBig">
           <h1>Unfortunately the page you were looking for cannot be found.</h1>
-          <p><a href="/">Return to home page</a></p></div>
+          <p><a href="index.html">Return to home page</a></p></div>
         <div class="clearfix"></div>
       </div>
     </div>

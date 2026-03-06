@@ -20,7 +20,7 @@ include("includes/header.php"); ?>
 
 	    <p class="terms">
 	      By signing up, you agree to receive updates about the Linear Clock. You can unsubscribe at any time.
-	      Read our <a href="/privacy" target="_blank">Privacy Policy</a>.
+	      Read our <a href="privacy.html" target="_blank">Privacy Policy</a>.
 	    </p>
 
           </div>
