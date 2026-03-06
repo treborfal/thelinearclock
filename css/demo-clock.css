@@ -1,0 +1,364 @@
+/* THEME VARIABLES (dark/light) */
+:root {      
+  --hour-dim: #333333;       /* dim color for hours/dots */
+  --hour-active: #fff;  /* active color for hours/dots */
+  --time-display-color:#fff;
+  --clock-bg: #000000;
+  --text-muted: #666666;
+   
+}
+
+body.light-theme {
+  --hour-dim: #c2c2c2;
+  --hour-active: #000;
+  --time-display-color:#000;  
+  --clock-bg: #ffffff;
+  --text-muted: #888888;
+}
+
+body, html {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+	line-height: 1.6;
+	background-color: var(--clock-bg);
+	font-size: 100%;
+	margin: 0px;
+}
+
+
+
+/* Main clock container */
+.clock-container {
+  width: 90vw;
+  height: 100dvh; 
+  display: flex;
+  flex-direction: column; /* stack .hours above .am-pm-center */
+  align-items: center;    /* center horizontally */
+  font-weight:500;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+
+/* ========== Layout Variations ========== */
+
+/* 1) The original single-row layout (DEFAULT) */
+.layout-linear .hours {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap; /* ensure a single row */
+}
+
+/* 2) The stacked layout: hours 1â€“6 top row, 7â€“12 bottom row */
+.layout-stack .hours {
+  /* Use a 2x6 grid to place hours in two rows */
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto;
+  gap: 50px 20px;
+  align-items: center;
+  justify-items: center;
+}
+
+/* The row of hours/dots */
+.hours {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;  /* fill the container's width */
+  margin-bottom: 5vw; /* space below, for the AM/PM row */
+}
+
+/* Each hour + dot block */
+.hour-dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* hour on top, dot below */
+  width: 50px;  /* tweak as needed for spacing */
+}
+
+/* The hour number */
+.hour {
+  font-size: 3vw;
+  color: var(--hour-dim);
+  margin-bottom: 10px;
+  transition: color 0.3s;
+  white-space: nowrap;
+  
+}
+.hour.active {
+  color: var(--hour-active);
+}
+
+.layout-stack .hours {
+    gap: 5vw 2vw !important;      /* row-gap 5vw, col-gap 2vw */
+    margin-bottom: 10vw !important;
+}
+
+.layout-stack .hour {
+  font-size: 4vw;
+margin-bottom:1vw;
+}
+
+/* The dot for minutes */
+.dot {
+  width: 0.8vw;
+  height: 0.8vw;
+  border-radius: 50%;
+  background-color: var(--hour-dim);
+  transition: background-color 0.3s;
+}
+.dot.active {
+  background-color: var(--hour-active);
+}
+.hidden-dot {
+  visibility: hidden; /* so hour 12 aligns with others */
+}
+
+/* AM/PM container in the center, below the row of hours */
+.am-pm-center {
+  display: flex;
+  gap: 5vw; /* space between AM and PM */
+}
+
+/* Both AM & PM are shown; only the active one is bright */
+.am-pm {
+  font-size: 1.5vw;
+  color: var(--hour-dim);
+  opacity: 1;
+  transition: color 0.3s, opacity 0.3s;
+}
+.am-pm.active {
+  color: var(--hour-active);
+  opacity: 1;
+}
+.layout-stack .am-pm {
+  font-size: 2vw;
+}
+
+
+/* === SETTINGS OVERLAY === */
+.settings-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.settings-overlay.active {
+  display: flex;
+}
+
+.settings-dialog {
+  background: var(--clock-bg);
+  color:    var(--time-display-color);
+  padding:  1.5rem;
+  border-radius: 8px;
+  width:    min(90%, 320px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin:10px;
+  border: 1px solid var(--text-muted);
+}
+
+.settings-dialog h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  text-align:center;
+  font-weight:400;
+}
+
+
+#close-settings {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 10rem;
+  cursor: pointer;
+  background: var(--hour-active);
+  color: var(--clock-bg);
+  width:100%;
+  font-size: 1rem;
+  font-family: "Work Sans", sans-serif;
+}
+
+#current-time {
+	color: var(--text-muted);
+	text-align:center;
+	margin:0 0px 1rem;
+}
+
+p.caption {color:var(--text-muted);
+	font-size:1rem;
+	text-align:center;
+}
+
+p.caption a {text-decoration:none;color:var(--text-muted);
+}
+
+p.caption a:hover {text-decoration:underline;color:var(--text-muted);
+}
+
+/* === TAB‑STYLE RADIOS === */
+.setting-group {
+  margin-bottom: 1.25rem;
+}
+.group-label {
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+  color: var(--time-display-color);
+  font-weight:600;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+.tab {
+  flex: 1;
+  text-align: center;
+  border: 1px solid var(--text-muted);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tab span {
+  display: block;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  user-select: none;
+  color: var(--hour-active);
+  transition: background-color 0.2s, color 0.2s;
+}
+.tab input {
+  display: none;
+}
+/* checked state */
+.tab input:checked + span {
+  background-color: var(--hour-active);
+  color: var(--clock-bg);
+}
+
+
+/* Responsive shrink if screen < 800px */
+@media (max-width: 1024px) {
+	
+	.layout-linear .hours {
+	}
+    .layout-linear .hour {
+      font-size: 3vw;
+  	margin-bottom:1vw;
+    }
+
+
+  .layout-stack .hour {
+    font-size: 4vw;
+	margin-bottom:1vw;
+  }
+  
+  .layout-stack .hours {
+    /* Use a 2x6 grid to place hours in two rows */
+    gap: 5vw 2vw !important;      /* row-gap 5vw, col-gap 2vw */
+    margin-bottom: 10vw !important;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    justify-items: center;
+  }
+  
+  .hours {
+    margin-bottom: 10vw; /* space below, for the AM/PM row */
+  }
+  
+  .dot {
+    width: 0.8vw;
+    height: 0.8vw;
+  }
+
+
+.layout-stack .am-pm {
+  font-size: 3vw;
+}
+
+}
+
+@media (max-width: 600px) {
+  /* 1) Let each hour‑dot shrink instead of forcing 50px */
+ .layout-linear .hour-dot .layout-stack .hour-dot {
+    width: auto;          /* drop the fixed 50px */
+    padding: 0 0.5vw;     /* small horizontal breathing room */
+    box-sizing: border-box;
+  }
+
+  /* 2) Reduce the font a bit so two‑digit labels still fit */
+  .layout-linear .hour, .layout-stack .hour {
+    font-size: 7vw !important;
+    margin-bottom: 1vw;
+  }
+  
+  .layout-linear .hour, .layout-stack .hour {
+    font-size: 7vw !important;
+    margin-bottom: 1vw;
+  }
+
+
+  
+  .layout-linear .hours, .layout-stack .hours {
+    /* Use a 2x6 grid to place hours in two rows */
+    gap: 7vw 2vw !important;      /* row-gap 5vw, col-gap 2vw */
+    margin-bottom: 10vw !important;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    justify-items: center;
+  }
+  
+ .layout-linear .dot, .layout-stack .dot {
+    width: 1.5vw;
+    height: 1.5vw;
+  }
+  
+ .layout-linear .am-pm, .layout-stack .am-pm {
+    font-size: 4vw;
+  }
+	.am-pm-center {
+  gap: 8vw; 
+}
+  
+}
+
+@media (max-height: 560px) {
+  /* Force flex‐based linear layout on short viewports */
+  .layout-linear .hours,
+  .layout-stack  .hours {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 5vw !important; /* match your normal linear spacing */
+    width: 100%;
+  }
+
+  /* Ensure hour‐dots don’t overflow */
+  .layout-linear .hour-dot,
+  .layout-stack  .hour-dot {
+    width: auto;      /* drop any fixed width */
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+  }
+}
+
+/* Hide the whole “Layout” group on short/narrow viewports */
+@media (max-height: 560px), (max-width: 600px) {
+  .setting-group[data-setting="layout"] {
+    display: none;
+  }
+  
+
+}

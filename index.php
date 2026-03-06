@@ -1,0 +1,339 @@
+<?php $page_title = "The Linear Clock";
+$page_description = "A bespoke and minimal design piece that introduces a unique way to display the time.";
+include("includes/header.php"); ?>
+
+<!-- New header 2025-->
+    <!-- HERO BLOCK -->
+     <section class="hero-block">
+       <div class="hero-content">
+		   
+		   
+		   <div class="container">
+		     <div class="row">
+		       <div class="col-md-offset-2 col-md-8 padding-30">
+				   <h1 class="headline fadeInUpBig wow" data-wow-delay="0s">Time, Reimagined.</h1>
+		   <p class="fadeInUpBig wow" data-wow-delay="0.2s">Meet the Linear Clock — A minimal design piece that introduces a unique way to display the time.</p>
+	   </div>
+   </div>
+		   
+  <!-- Main clock container -->
+  <div class="clock-container layout-linear">
+    <!-- Hours row -->
+    <div class="hours">
+      <div class="hour-dot" data-hour="1">
+        <div class="hour">1</div>
+        <div class="dot" data-index="1"></div>
+      </div>
+      <div class="hour-dot" data-hour="2">
+        <div class="hour">2</div>
+        <div class="dot" data-index="2"></div>
+      </div>
+      <div class="hour-dot" data-hour="3">
+        <div class="hour">3</div>
+        <div class="dot" data-index="3"></div>
+      </div>
+      <div class="hour-dot" data-hour="4">
+        <div class="hour">4</div>
+        <div class="dot" data-index="4"></div>
+      </div>
+      <div class="hour-dot" data-hour="5">
+        <div class="hour">5</div>
+        <div class="dot" data-index="5"></div>
+      </div>
+      <div class="hour-dot" data-hour="6">
+        <div class="hour">6</div>
+        <div class="dot" data-index="6"></div>
+      </div>
+      <div class="hour-dot" data-hour="7">
+        <div class="hour">7</div>
+        <div class="dot" data-index="7"></div>
+      </div>
+      <div class="hour-dot" data-hour="8">
+        <div class="hour">8</div>
+        <div class="dot" data-index="8"></div>
+      </div>
+      <div class="hour-dot" data-hour="9">
+        <div class="hour">9</div>
+        <div class="dot" data-index="9"></div>
+      </div>
+      <div class="hour-dot" data-hour="10">
+        <div class="hour">10</div>
+        <div class="dot" data-index="10"></div>
+      </div>
+      <div class="hour-dot" data-hour="11">
+        <div class="hour">11</div>
+        <div class="dot" data-index="11"></div>
+      </div>
+      <!-- Hour 12 with hidden dot for alignment -->
+      <div class="hour-dot" data-hour="12">
+        <div class="hour">12</div>
+        <div class="dot hidden-dot" data-index="12"></div>
+      </div>
+    </div>
+
+    <!-- AM/PM indicators below the dots, centered -->
+    <div class="am-pm-center">
+      <div class="am-pm am">AM</div>
+      <div class="am-pm pm">PM</div>
+    </div>
+  </div>
+
+ 
+
+  <!-- Theme toggle container 
+  <div class="theme-toggle-container">
+    <button class="theme-btn theme-dark" data-theme="dark"></button>
+    <button class="theme-btn theme-light" data-theme="light"></button>
+  </div> -->
+  
+  <!-- Time display below the clock container 
+  <div class="time-display">
+    <i class="fa-regular fa-clock"></i>The time is 
+    <span class="time-text"></span>
+  </div>-->
+  
+  <!-- Layout toggle container 
+  <div class="layout-toggle-container">
+    <button class="layout-btn layout-linear-btn" data-layout="linear"></button>
+    <button class="layout-btn layout-stack-btn" data-layout="stack"></button>
+  </div>-->
+  
+  </div>
+  </section>
+  
+  <!-- end new header 2025-->
+
+<!-- full width image 
+<div class="container-fluid" style="margin-top:0px">
+  <div class="row">
+    <div class="col-md-12 no-padding">
+     <div class="feature-image fadeIn wow" style="background: url('images/hero.jpg') no-repeat center center;background-size:cover;"></div>
+    </div>
+  </div>
+</div>
+full width image --> 
+
+
+
+<!-- section -->
+<div class="container-fluid light padding-100">
+  <div class="container">
+	  <div class="row">
+		  <div class="col-md-offset-2 col-md-8 padding-30 text-center fadeInUpBig wow" data-wow-delay="0s">
+			  <h1>Redesigning the rhythm.</h1>
+			</div>
+		
+		<div class="col-md-offset-2 col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
+		  		<p>In a world that pulses to the beat of instant notifications, algorithmic attention spans, and endless scrolling, we’ve forgotten the gentle rhythm of time.</p>
+			</div>
+				
+				<div class="col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.2s">
+				<p>We’ve become obsessed with the second hand—always chasing, always reacting. But life was never meant to be counted by the tick.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- / section -->
+
+<!-- image gallery x2 -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 no-padding overflow-hidden fadeIn wow" data-wow-delay="0s"> <img class="grow" src="images/linear-1.png" alt="The Linear Clock 1"> </div>
+    <div class="col-md-6 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.1s"> <img class="grow" src="images/linear-2.png" alt="The Linear Clock 2"> </div>
+  </div>
+</div>
+<!-- / image gallery --> 
+
+
+<!-- section -->
+<div class="container-fluid light padding-100">
+  <div class="container">
+	  <div class="row">
+				
+				<div class="col-md-offset-2 col-md-8 padding-30 text-center fadeInUpBig wow" data-wow-delay="0s">
+				<h1>Each day is a journey, not a loop.</h1>
+			</div>
+			<div class="col-md-offset-2 col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
+				<p>Linear is something quieter. Something slower. A clock not for measuring productivity, but for marking presence.</p>
+			</div>
+				<div class="col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.2s">
+				<p>It challenges the tradition of the circular face — the endless loop that traps us in urgency. Instead, we move forward, not around.</p>
+	  	  </div>
+  		</div>
+	</div>
+</div>
+
+
+<!-- example of how it works -->
+<div class="container-fluid dark padding-100">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 text-center animated fadeInUpBig">
+        <h1>How it works</h1>
+        </div>
+      <div class="col-md-offset-2 col-md-8">
+        <div id="carousel" class="carousel slide carousel-fade fadeIn wow margin-bottom-30 " data-ride="carousel"> 
+          
+          <!-- indicators -->
+          <ol class="carousel-indicators carousel-indicators-text">
+            <li data-target="#carousel" data-slide-to="0" class="active"><i class="fa fa-clock-o"></i> 2:55am</li>
+            <li data-target="#carousel" data-slide-to="1"><i class="fa fa-clock-o"></i> 5:30pm</li>
+            <li data-target="#carousel" data-slide-to="2"><i class="fa fa-clock-o"></i> 10:10am</li>
+            <li data-target="#carousel" data-slide-to="3"><i class="fa fa-clock-o"></i> 7:45pm</li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active" data-slide-number="0"> <img src="images/slide-255am.png" alt="2:55am The Linear Clock"> </div>
+            <div class="item" data-slide-number="1"> <img src="images/slide-530pm.png" alt="5:30pm The Linear Clock"> </div>
+            <div class="item" data-slide-number="2"> <img src="images/slide-1010am.png" alt="10:10am The Linear Clock"> </div>
+            <div class="item" data-slide-number="3"> <img src="images/slide-745pm.png" alt="7:45pm The Linear Clock"> </div>
+          </div>
+        </div>
+      </div>
+      <!-- /col-sm-12 -->
+      
+      <div class="col-md-offset-2 col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0s">
+        <p>Like a conventional clock, each number represents an hour, and the current hour is highlighted.</p>
+      </div>
+      <div class="col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
+        <p>The minutes are represented by the dots below the hours, increasing in 5 minute intervals.</p>
+      </div>
+    </div>
+    <!-- /row --> 
+  </div>
+  <!-- /container --> 
+</div>
+<!-- /fluid container -->
+
+
+				
+
+
+<!-- section --> 
+<div class="container-fluid light padding-100">
+	<div class="container"> 
+    	<div class="row">
+        	<div class="col-md-offset-2 col-md-8 padding-30 text-center fadeInUpBig wow" data-wow-delay="0s">
+			  <h1>Progress, not pressure.</h1>
+		  	</div>
+		  	<div class="col-md-offset-2 col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
+		        <p>Linear stretches time into a line, like the progress bar on your favorite song, or the quiet arc of sunlight across your wall.</p>
+			</div>
+		    <div class="col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.2s">
+		        <p>It’s not about getting everything done. It’s about noticing what is being done, one step at a time.</p>
+			</div>
+    	</div>
+  	</div>
+</div>
+<!-- / section --> 
+
+
+
+ <!-- image gallery x3 -->
+ <div class="container-fluid">
+ 	<div class="row">
+ 		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0s"> <img class="grow" src="images/linear-3.png" alt="The Linear Clock 3"> </div>
+ 		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.1s"> <img class="grow" src="images/linear-4.png" alt="The Linear Clock 4"> </div>
+ 		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.2s"> <img class="grow" src="images/linear-5.png" alt="The Linear Clock 5"> </div>
+ 	</div>
+ </div>
+ <!-- / image gallery -->
+ 
+ <!-- spec -->
+ <div class="container-fluid dark padding-100">
+   <div class="container">
+    
+     <div class="row">
+	  <div class="col-md-offset-2 col-md-8 padding-30 text-center fadeInUpBig wow" data-wow-delay="0s">
+		  <h1>Linear, at a glance.</h1>
+		</div>
+       <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
+         <p><i class="fa fa-tint"></i><br>Black or white e-ink screen for high contrast and readability.</p>
+       </div>
+       <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.2s">
+         <p><i class="fa fa-arrows-h"></i><br>Large and small display, as well as a watch face.</p>
+       </div>
+      
+      <div class="clearfix visible-sm-block visible-xs-block"></div>
+      
+       <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.3s">
+         <p><i class="fa fa-battery-full"></i><br>Long lasting charge with a USB-C cable.</p>
+       </div>
+      
+       <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.4s">
+         <p><i class="fa fa-magnet"></i><br>Magnetic mounting, no drilling or cables.</p>
+       </div>
+     </div> 
+    
+   </div>
+ </div>
+  <!-- / spec -->
+
+<!-- logo gallery 
+            <div class="container-fluid padding-100 light">
+              <div class="container">
+                <div class="row">
+
+                  <div class="col-md-2 col-xs-4">
+                    <img src="images/mashable.jpg">
+                  </div>
+
+                  <div class="col-md-2 col-xs-4">
+                    <img src="images/bbc.jpg">
+                  </div>
+
+                  <div class="col-md-2 col-xs-4">
+                    <img src="images/theguardian.jpg">
+                  </div>
+
+                  <div class="col-md-2 col-xs-4">
+                    <img src="images/dwell.jpg">
+                  </div>
+                  
+                   <div class="col-md-2 col-xs-4">
+                      <img src="images/theguardian.jpg">
+                    </div>
+
+                    <div class="col-md-2 col-xs-4">
+                      <img src="images/dwell.jpg">
+                    </div>
+</div>
+                </div>
+            </div>
+            / logo gallery --> 
+
+
+<!-- section --> 
+<div class="container-fluid light padding-100">
+	<div class="container"> 
+    	<div class="row">
+        	<div class="col-md-offset-2 col-md-8 padding-30 text-center fadeInUpBig wow" data-wow-delay="0s">
+			  <h1>Permission, not precision.</h1>
+		  </div>
+			  
+		      <div class="col-md-offset-2 col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
+		        <p>Linear is about permission to breathe. To pause. To look away from the screen. To live by your own rhythm.</p>
+		      </div>
+		      <div class="col-md-4 padding-30 fadeInUpBig wow" data-wow-delay="0.2s">
+		        <p>To be calm and make the most of your day. This is not a clock for schedules. This is a clock for serenity.</p>
+		      </div>
+    	</div>
+  	</div>
+</div>
+<!-- / section --> 
+
+
+<!-- image gallery x3  
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0s"> <img class="grow" src="images/cloq-2.jpg" alt="The Linear Clock 6"> </div>
+		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.1s"> <img class="grow" src="images/cloq-8.jpg" alt="The Linear Clock 7"> </div>
+		<div class="col-md-4 no-padding overflow-hidden fadeIn wow" data-wow-delay="0.2s"> <img class="grow" src="images/cloq-4.jpg" alt="The Linear Clock 8"> </div>
+	</div>
+</div>
+ / image gallery -->
+
+
+
+
+  
+<?php include("includes/footer.php"); ?>

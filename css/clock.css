@@ -1,0 +1,276 @@
+/* THEME VARIABLES (dark/light) */
+:root {      
+  --border-color: #1a1a1a;   /* clock border */
+  --hour-dim: #262626;       /* dim color for hours/dots */
+  --hour-active: #fff;  /* active color for hours/dots */
+  --outline-color:#3a3a3a;
+  --time-display-color:#fff;
+  --clock-bg: #0b0b0b;
+   
+}
+
+body.light-theme {
+  --border-color: #F1F1F1;
+  --hour-dim: #c2c2c2;
+  --hour-active: #000;
+  --outline-color:#eee;
+  --time-display-color:#000;  
+  --clock-bg: #E3E3E3;
+}
+
+/* Hero block styling */
+.hero-block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding:120px 0 50px;
+     background: url('/images/hero-image.png') center/cover no-repeat;
+	 background-color:#030303;
+}
+
+/* Center content inside hero */
+.hero-content {
+  text-align: center;
+  color: #fff; /* text color if needed */
+}
+
+/* THEME TOGGLE CONTAINER & BUTTONS */
+.theme-toggle-container {
+  display: flex;
+  gap: 20px; /* space between the two circle buttons */
+  margin:60px 0px 20px;
+  justify-content: center; /* center horizontally */
+}
+
+.hero-content h1, .hero-content p {color: #ffffff}
+.hero-content p {font-size:1.3em;}
+
+/* Both theme buttons are circles */
+.theme-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border:3px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Dark theme button is black */
+.theme-dark {
+  background-color: #0b0b0b;
+}
+
+/* Light theme button is white */
+.theme-light {
+  background-color: #E3E3E3;
+}
+
+/* The active theme button shows a visible border */
+.theme-btn.active {
+  border-color: #222; /* or any highlight color you prefer */
+  outline:#fff 2px solid;
+}
+
+/* Main clock container for demo page fullscreen */
+.clock-container-demo {
+  width: 100%;
+  height: 100px;
+  background: var(--clock-bg);
+  display: flex;
+  flex-direction: column; /* stack .hours above .am-pm-center */
+  align-items: center;    /* center horizontally */
+  margin:0px auto;
+  font-weight:500;
+}
+
+/* Main clock container */
+.clock-container {
+  width: 800px;
+  height: auto; /* Let it expand based on content */
+
+  /* 20px top/bottom, 60px left/right */
+  padding: 60px 60px 40px 60px;
+
+  /* Thicker border (10px) + radius (10px) */
+  border: 10px solid var(--border-color);
+  border-radius: 20px;
+  
+  /*outline:solid 2px var(--outline-color);*/
+
+  /* Subtle gradient background */
+  background: var(--clock-bg);
+  box-shadow: 0 -1px 1px rgba(256,256,256,0.3), 0 20px 60px rgba(0,0,0,0.2), inset 0 0 3px rgba(0,0,0,0.2);
+
+  display: flex;
+  flex-direction: column; /* stack .hours above .am-pm-center */
+  align-items: center;    /* center horizontally */
+  margin:40px auto;
+
+  font-weight:500;
+}
+
+/* ========== Layout Toggle Container ========== */
+.layout-toggle-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center; /* center horizontally */
+}
+
+/* Layout toggle buttons (circular) */
+.layout-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s;
+  background-color: #999; /* Just a neutral color; adjust if you like */
+}
+.layout-btn.active {
+  border-color: #ff0; /* highlight color when active */
+}
+
+/* ========== Layout Variations ========== */
+
+/* 1) The original single-row layout (DEFAULT) */
+.layout .hours {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap; /* ensure a single row */
+}
+
+
+
+
+
+/* The row of hours/dots */
+.hours {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;  /* fill the container's width */
+  margin-bottom: 30px; /* space below, for the AM/PM row */
+}
+
+/* Each hour + dot block */
+.hour-dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* hour on top, dot below */
+  width: 50px;  /* tweak as needed for spacing */
+}
+
+/* The hour number */
+.hour {
+  font-size: 2rem;
+  color: var(--hour-dim);
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+.hour.active {
+  color: var(--hour-active);
+}
+
+/* The dot for minutes */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--hour-dim);
+  transition: background-color 0.3s;
+}
+.dot.active {
+  background-color: var(--hour-active);
+}
+.hidden-dot {
+  visibility: hidden; /* so hour 12 aligns with others */
+}
+
+/* AM/PM container in the center, below the row of hours */
+.am-pm-center {
+  display: flex;
+  gap: 30px; /* space between AM and PM */
+}
+
+/* Both AM & PM are shown; only the active one is bright */
+.am-pm {
+  font-size: 0.8rem;
+  color: var(--hour-dim);
+  opacity: 1;
+  transition: color 0.3s, opacity 0.3s;
+}
+.am-pm.active {
+  color: var(--hour-active);
+  opacity: 1;
+}
+
+/* Time display below the clock container */
+.time-display {
+  font-size: 1rem;
+  color: var(--time-display-color);
+  margin-top: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+    justify-content: center; /* center horizontally */
+    gap: 5px;
+}
+
+/* Responsive shrink if screen < 800px */
+@media (max-width: 1024px) {
+  .clock-container {
+    max-width: 80vw;
+    padding: 5vw 4vw 4vw 4vw;
+	 border-radius: 2vw;
+	 border: 1vw solid var(--border-color);
+  }
+  .hour {
+    font-size: 3.2vw;
+	margin-bottom:1vw;
+  }
+  
+  .hours {
+    margin-bottom: 3vw; /* space below, for the AM/PM row */
+  }
+  
+  .dot {
+    width: 0.8vw;
+    height: 0.8vw;
+  }
+	.am-pm-center {
+  gap: 3vw; 
+}
+  .am-pm {
+    font-size: 1.2vw;
+  }
+  .time-display {
+    font-size: 1.2vw;
+  }
+
+}
+
+/* Responsive shrink if screen < 500px */
+@media (max-width: 500px) {
+  .hero-content p {font-size:1.1em;}
+  .theme-btn {
+      width: 32px;
+      height: 32px;
+    }
+	
+	/* 2) The stacked layout: hours 1â€“6 top row, 7â€“12 bottom row */
+	.layout .hours {
+	  /* Use a 2x6 grid to place hours in two rows */
+	  display: grid;
+	  grid-template-columns: repeat(6, 1fr);
+	  grid-template-rows: auto auto;
+	  gap: 20px;          /* spacing between items */
+	  align-items: center;
+	  justify-items: center;
+	}
+}

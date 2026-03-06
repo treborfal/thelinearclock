@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="600px" height="600px"><svg width="600px" height="600px" viewBox="0 0 600 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>linear-favicon</title>
+    <g id="SvgjsG1065" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#000000" x="0" y="0" width="600" height="600"></rect>
+        <circle id="SvgjsCircle1064" fill="#FFFFFF" fill-rule="nonzero" cx="300.659759" cy="474.277778" r="34.0740741"></circle>
+        <path d="M297.615865,329.394815 C297.615865,339.480741 299.115124,346.568148 302.113643,350.657037 C305.112162,354.473333 310.70031,356.381481 318.878087,356.381481 C324.057347,356.381481 328.418828,356.108889 331.962532,355.563704 C335.778828,354.745926 340.412902,353.246667 345.864754,351.065926 L345.864754,386.253086 C336.596606,390.88716 320.377347,393.181481 307.02031,393.181481 C288.756606,393.181481 275.263273,388.547407 266.54031,379.279259 C258.089939,370.011111 253.864754,355.427407 253.864754,335.528148 L253.864754,92.6481481 L297.615865,92.6481481 L297.615865,329.394815 Z" id="SvgjsPath1063" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
