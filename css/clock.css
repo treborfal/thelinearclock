@@ -26,7 +26,7 @@ body.light-theme {
   justify-content: center;
   position: relative;
   padding:120px 0 50px;
-     background: url('/images/hero-image.png') center/cover no-repeat;
+     background: url('../images/hero-image.png') center/cover no-repeat;
 	 background-color:#030303;
 }
 
