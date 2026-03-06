@@ -8,10 +8,10 @@
 - [ ] Replace PHP-only dynamic bits (e.g. `date("Y")`) with client-side/static alternatives.
 
 ## Phase 2 — URL and Navigation Compatibility
-- [ ] Replace extensionless links (`/about`) with static-safe links (`/about.html` or folder-style `/about/`).
-- [ ] Standardize navigation and footer links across all pages.
+- [x] Replace extensionless links (`/about`) with static-safe links (`/about.html` or folder-style `/about/`).
+- [x] Standardize navigation and footer links across all pages.
 - [ ] Decide final URL strategy:
-  - [ ] Flat files (`about.html`)
+  - [x] Flat files (`about.html`)
   - [ ] Directory routes (`about/index.html`)
 
 ## Phase 3 — Asset Path Hardening for GitHub Pages
@@ -35,3 +35,9 @@
 - [ ] Smoke-test all routes/pages (`home`, `about`, `shop`, `privacy`, `demo`, `404`).
 - [ ] Remove or archive legacy PHP files once static pages are confirmed.
 - [ ] Update deployment docs for GitHub Pages.
+
+## URL conventions
+- Use **flat-file routing** for all internal links: `index.html`, `about.html`, `shop.html`, `privacy.html`, `demo.html`.
+- Do not use extensionless internal routes (for example `/about` or `about`) because they can fail on project-page deployments.
+- Apply this convention consistently to top navigation, mobile navigation, logo links, CTA links, footer links, and 404/pagenotfound recovery links.
+

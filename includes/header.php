@@ -93,17 +93,17 @@
                 </button> 
 			
 			
-      <a class="navbar-brand" href="/"> <img class="logo" alt="The Linear Clock Logo" src="images/logo@2x.png" width="61" height="28"> </a>
+      <a class="navbar-brand" href="index.html"> <img class="logo" alt="The Linear Clock Logo" src="images/logo@2x.png" width="61" height="28"> </a>
     </div>
     <div class="navbar-text navbar-right hidden-xs"></div>
 	
     
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="/">Home</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/shop">Shop</a></li>
-				<li><a href="/demo" target="_blank">Try Demo</a></li>
+                <li><a href="index.html">Home</a></li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="shop.html">Shop</a></li>
+				<li><a href="demo.html" target="_blank">Try Demo</a></li>
               </ul>
             </div> 
 	

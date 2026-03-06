@@ -8,7 +8,7 @@
       
       <div class="footer-logo"><img src="images/logo@2x.png" width="61" height="28"></div>
     
-    <p><a href="/shop">Shop</a> · <a href="/about">About</a> · <a href="/privacy">Privacy Policy</a></p>
+    <p><a href="shop.html">Shop</a> · <a href="about.html">About</a> · <a href="privacy.html">Privacy Policy</a></p>
 	
 	<p><a href="http://instagram.com/thelinearclock" target="_blank" title="Follow on Instagram"><i class="fa fa-instagram fa-lg"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/thelinearclock" target="_blank" title="Follow on Twitter"><i class="fa fa-twitter fa-lg"></i></a></p>
     
