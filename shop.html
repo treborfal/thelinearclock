@@ -89,17 +89,18 @@
 		<p>Thinking about getting one? The Linear Clock is still only a concept, but your interest helps decide whether to launch it for real. Sign up to show your support!</p>
 		
 	    <form id="email-form">
-	      <input type="email" name="email" class="email" placeholder="Enter your email" required />
+	      <label for="email-input" class="sr-only">Email address</label>
+	      <input type="email" id="email-input" name="email" class="email" placeholder="Enter your email" aria-describedby="terms-copy response-message" required />
 	      <div class="honeypot-field" aria-hidden="true">
 	        <label for="website">Leave this field empty</label>
 	        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
 	      </div>
 	      <button type="submit" id="notify-button">I love it!</button>
-	      <p id="response-message"></p>
+	      <p id="response-message" aria-live="polite"></p>
 	    </form>
 
 	    <p class="terms">
-	      By signing up, you agree to receive updates about the Linear Clock. You can unsubscribe at any time.
+	      By submitting this form, you consent to receive product updates about The Linear Clock by email (lawful basis: consent). You can withdraw consent at any time by unsubscribing.
 	      Read our <a href="privacy.html" target="_blank">Privacy Policy</a>.
 	    </p>
 
