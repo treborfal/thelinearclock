@@ -5,12 +5,23 @@
  * - No shared client secret in browser code.
  * - GET `?action=challenge` issues a short-lived signed nonce.
  * - POST validates origin + nonce signature + nonce TTL/replay.
+ * - Honeypot + dwell-time checks reduce low-effort bot traffic.
+ * - Per-identity cooldown and optional Turnstile challenges for suspicious retries.
  * - Secrets remain in Script Properties only.
  *
  * Required Script Properties:
  * - ALLOWED_ORIGINS: Comma-separated origins, e.g. "https://thelinearclock.com,https://www.thelinearclock.com"
  * - SIGNING_SECRET: Long random string generated and stored server-side only
  * - SHEET_ID: Target Google Sheet ID
+ *
+ * Optional Script Properties:
+ * - MIN_DWELL_MS: Minimum allowed dwell time in ms (default 3000)
+ * - MAX_CLIENT_CLOCK_SKEW_MS: Allowed client/server submit timestamp drift (default 120000)
+ * - IP_COOLDOWN_MS: Per-IP cooldown in ms (default 60000)
+ * - EMAIL_COOLDOWN_MS: Per-email cooldown in ms (default 300000)
+ * - SUSPICIOUS_WINDOW_MS: Window for counting suspicious attempts (default 3600000)
+ * - SUSPICIOUS_THRESHOLD: Attempts in window before CAPTCHA is required (default 3)
+ * - TURNSTILE_SECRET: If set, Turnstile verification is enabled for suspicious attempts
  */
 
 const NONCE_TTL_MS = 5 * 60 * 1000;
@@ -35,13 +46,23 @@ function doPost(e) {
     .map(v => v.trim())
     .filter(Boolean);
 
-  const email = param_(e, 'email');
+  const email = param_(e, 'email').toLowerCase();
   const nonce = param_(e, 'nonce');
   const issuedAt = param_(e, 'issuedAt');
   const signature = param_(e, 'signature');
   const origin = param_(e, 'origin');
+  const honeypot = param_(e, 'website');
+  const submittedAt = param_(e, 'submittedAt');
+  const dwellMs = param_(e, 'dwellMs');
+  const turnstileToken = param_(e, 'turnstileToken');
+  const ipKey = getRequesterIpKey_(e);
 
   if (!allowedOrigins.includes(origin)) {
+    return textResponse('Unauthorized');
+  }
+
+  if (honeypot) {
+    registerSuspiciousAttempt_(props, email, ipKey);
     return textResponse('Unauthorized');
   }
 
@@ -50,15 +71,39 @@ function doPost(e) {
   }
 
   if (!nonce || !issuedAt || !signature || !isValidChallenge_(nonce, issuedAt, signature)) {
+    registerSuspiciousAttempt_(props, email, ipKey);
+    return textResponse('Unauthorized');
+  }
+
+  if (!isValidSubmitTiming_(props, submittedAt, dwellMs)) {
+    registerSuspiciousAttempt_(props, email, ipKey);
     return textResponse('Unauthorized');
   }
 
   const usedNonceKey = `used_nonce_${nonce}`;
   if (props.getProperty(usedNonceKey)) {
+    registerSuspiciousAttempt_(props, email, ipKey);
     return textResponse('Unauthorized');
   }
 
+  if (isInCooldown_(props, `cooldown_ip_${ipKey}`, numberProp_(props, 'IP_COOLDOWN_MS', 60 * 1000))) {
+    registerSuspiciousAttempt_(props, email, ipKey);
+    return textResponse('Unauthorized');
+  }
+
+  if (isInCooldown_(props, `cooldown_email_${email}`, numberProp_(props, 'EMAIL_COOLDOWN_MS', 5 * 60 * 1000))) {
+    registerSuspiciousAttempt_(props, email, ipKey);
+    return textResponse('Unauthorized');
+  }
+
+  if (requiresCaptcha_(props, email, ipKey) && !verifyTurnstile_(props, turnstileToken, ipKey)) {
+    registerSuspiciousAttempt_(props, email, ipKey);
+    return textResponse('CaptchaRequired');
+  }
+
   props.setProperty(usedNonceKey, Date.now().toString());
+  props.setProperty(`cooldown_ip_${ipKey}`, Date.now().toString());
+  props.setProperty(`cooldown_email_${email}`, Date.now().toString());
 
   const sheetId = props.getProperty('SHEET_ID');
   if (!sheetId) {
@@ -66,7 +111,7 @@ function doPost(e) {
   }
 
   const sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
-  sheet.appendRow([new Date(), email, origin]);
+  sheet.appendRow([new Date(), email, origin, ipKey]);
 
   return textResponse('Success');
 }
@@ -87,6 +132,109 @@ function isValidChallenge_(nonce, issuedAt, signature) {
   return safeEquals_(signature, expected);
 }
 
+function isValidSubmitTiming_(props, submittedAt, dwellMs) {
+  const minDwellMs = numberProp_(props, 'MIN_DWELL_MS', 3000);
+  const maxClockSkewMs = numberProp_(props, 'MAX_CLIENT_CLOCK_SKEW_MS', 2 * 60 * 1000);
+
+  const submitTs = Number(submittedAt);
+  const dwell = Number(dwellMs);
+  if (!Number.isFinite(submitTs) || !Number.isFinite(dwell) || dwell < minDwellMs) {
+    return false;
+  }
+
+  return Math.abs(Date.now() - submitTs) <= maxClockSkewMs;
+}
+
+function isInCooldown_(props, key, cooldownMs) {
+  const previous = Number(props.getProperty(key));
+  if (!Number.isFinite(previous)) {
+    return false;
+  }
+  return Date.now() - previous < cooldownMs;
+}
+
+function requiresCaptcha_(props, email, ipKey) {
+  const threshold = numberProp_(props, 'SUSPICIOUS_THRESHOLD', 3);
+  const emailScore = suspiciousCount_(props, `suspicious_email_${email}`);
+  const ipScore = suspiciousCount_(props, `suspicious_ip_${ipKey}`);
+  return Math.max(emailScore, ipScore) >= threshold;
+}
+
+function registerSuspiciousAttempt_(props, email, ipKey) {
+  const windowMs = numberProp_(props, 'SUSPICIOUS_WINDOW_MS', 60 * 60 * 1000);
+  bumpSuspiciousCounter_(props, `suspicious_email_${email}`, windowMs);
+  bumpSuspiciousCounter_(props, `suspicious_ip_${ipKey}`, windowMs);
+}
+
+function suspiciousCount_(props, key) {
+  const parsed = parseSuspicious_(props.getProperty(key));
+  if (!parsed) {
+    return 0;
+  }
+  return parsed.count;
+}
+
+function bumpSuspiciousCounter_(props, key, windowMs) {
+  const now = Date.now();
+  const parsed = parseSuspicious_(props.getProperty(key));
+  const next = (!parsed || now - parsed.windowStart > windowMs)
+    ? { count: 1, windowStart: now }
+    : { count: parsed.count + 1, windowStart: parsed.windowStart };
+  props.setProperty(key, JSON.stringify(next));
+}
+
+function parseSuspicious_(raw) {
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    const obj = JSON.parse(raw);
+    if (!Number.isFinite(obj.count) || !Number.isFinite(obj.windowStart)) {
+      return null;
+    }
+    return obj;
+  } catch (err) {
+    return null;
+  }
+}
+
+function verifyTurnstile_(props, token, ipAddress) {
+  const secret = props.getProperty('TURNSTILE_SECRET');
+  if (!secret) {
+    return false;
+  }
+
+  if (!token) {
+    return false;
+  }
+
+  const payload = {
+    secret,
+    response: token,
+    remoteip: ipAddress
+  };
+
+  try {
+    const response = UrlFetchApp.fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'post',
+      payload,
+      muteHttpExceptions: true
+    });
+    const body = JSON.parse(response.getContentText() || '{}');
+    return body.success === true;
+  } catch (err) {
+    return false;
+  }
+}
+
+function getRequesterIpKey_(e) {
+  const raw = param_(e, 'ipAddress') || 'unknown';
+  return Utilities.base64EncodeWebSafe(
+    Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, raw)
+  ).slice(0, 24);
+}
+
 function signNonce_(nonce, issuedAt) {
   const secret = PropertiesService.getScriptProperties().getProperty('SIGNING_SECRET');
   if (!secret) {
@@ -100,6 +248,11 @@ function signNonce_(nonce, issuedAt) {
 
 function isValidEmail_(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || '');
+}
+
+function numberProp_(props, key, fallback) {
+  const value = Number(props.getProperty(key));
+  return Number.isFinite(value) ? value : fallback;
 }
 
 function param_(e, key) {

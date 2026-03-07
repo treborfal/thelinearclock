@@ -90,6 +90,10 @@
 		
 	    <form id="email-form">
 	      <input type="email" name="email" class="email" placeholder="Enter your email" required />
+	      <div class="honeypot-field" aria-hidden="true">
+	        <label for="website">Leave this field empty</label>
+	        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+	      </div>
 	      <button type="submit" id="notify-button">I love it!</button>
 	      <p id="response-message"></p>
 	    </form>
@@ -116,10 +120,24 @@
   <!-- / image gallery -->
   
   <!-- /content --> 
+  <style>
+    .honeypot-field {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  </style>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const button = document.getElementById("notify-button");
       const form = document.getElementById("email-form");
+      const responseMessage = document.getElementById("response-message");
+      const minDwellMs = 3000;
+      const openedAt = Date.now();
 
       if (!button || !form) return;
 
@@ -138,6 +156,20 @@
         e.preventDefault();
 
         const email = form.email.value;
+        const honeypot = form.website ? form.website.value : "";
+        const submittedAt = Date.now();
+        const dwellMs = submittedAt - openedAt;
+
+        if (honeypot) {
+          responseMessage.innerText = "We couldn't process your signup. Please try again.";
+          form.reset();
+          return;
+        }
+
+        if (dwellMs < minDwellMs) {
+          responseMessage.innerText = "Please take a moment and try again.";
+          return;
+        }
 
         try {
           const challengeRes = await fetch(`${endpoint}?action=challenge`, { method: "GET" });
@@ -157,7 +189,17 @@
           formData.append("nonce", challenge.nonce);
           formData.append("signature", challenge.signature);
           formData.append("issuedAt", challenge.issuedAt);
+          formData.append("submittedAt", String(submittedAt));
+          formData.append("dwellMs", String(dwellMs));
+          formData.append("website", honeypot);
           formData.append("origin", window.location.origin);
+
+          if (typeof window.turnstile === "object" && typeof window.turnstile.getResponse === "function") {
+            const turnstileToken = window.turnstile.getResponse();
+            if (turnstileToken) {
+              formData.append("turnstileToken", turnstileToken);
+            }
+          }
 
           const res = await fetch(endpoint, { method: "POST", body: formData });
           const text = await res.text();
@@ -169,16 +211,16 @@
             });
           }
 
-          document.getElementById("response-message").innerText =
+          responseMessage.innerText =
             text === "Success"
               ? "Thanks! Your support means a lot!."
               : text === "Invalid email"
               ? "Please enter a valid email address."
-              : text === "Unauthorized"
-              ? "Submission blocked. Please try again later."
-              : "Oops! Something went wrong.";
+              : text === "CaptchaRequired"
+              ? "Please complete verification and try again."
+              : "We couldn't process your signup right now. Please try again later.";
         } catch (err) {
-          document.getElementById("response-message").innerText = "Error connecting to server.";
+          responseMessage.innerText = "Error connecting to server.";
         }
 
         form.reset();
