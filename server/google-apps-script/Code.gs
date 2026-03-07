@@ -46,7 +46,7 @@ function doPost(e) {
     .map(v => v.trim())
     .filter(Boolean);
 
-  const email = param_(e, 'email').toLowerCase();
+  const email = normalizeEmail_(param_(e, 'email'));
   const nonce = param_(e, 'nonce');
   const issuedAt = param_(e, 'issuedAt');
   const signature = param_(e, 'signature');
@@ -246,8 +246,55 @@ function signNonce_(nonce, issuedAt) {
   return Utilities.base64EncodeWebSafe(bytes, true);
 }
 
+function normalizeEmail_(value) {
+  const trimmed = String(value || '').trim();
+  if (!trimmed || trimmed.length > 254) {
+    return '';
+  }
+
+  const parts = trimmed.split('@');
+  if (parts.length !== 2) {
+    return '';
+  }
+
+  const local = parts[0].trim().toLowerCase();
+  const domain = parts[1].trim().toLowerCase();
+  if (!local || !domain) {
+    return '';
+  }
+
+  return `${local}@${domain}`;
+}
+
 function isValidEmail_(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || '');
+  if (!email || email.length > 254) {
+    return false;
+  }
+
+  const at = email.indexOf('@');
+  if (at <= 0 || at !== email.lastIndexOf('@')) {
+    return false;
+  }
+
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+
+  if (local.length > 64 || domain.length > 253) {
+    return false;
+  }
+
+  if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) {
+    return false;
+  }
+
+  if (domain.includes('..')) {
+    return false;
+  }
+
+  const localPartPattern = /^[a-z0-9.!#$%&'*+\/=?^_`{|}~-]+$/i;
+  const domainPattern = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i;
+
+  return localPartPattern.test(local) && domainPattern.test(domain);
 }
 
 function numberProp_(props, key, fallback) {

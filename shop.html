@@ -89,7 +89,7 @@
 		<p>Thinking about getting one? The Linear Clock is still only a concept, but your interest helps decide whether to launch it for real. Sign up to show your support!</p>
 		
 	    <form id="email-form">
-	      <input type="email" name="email" class="email" placeholder="Enter your email" required />
+	      <input type="email" name="email" class="email" placeholder="Enter your email" required autocomplete="email" inputmode="email" maxlength="254" spellcheck="false" autocapitalize="off" />
 	      <div class="honeypot-field" aria-hidden="true">
 	        <label for="website">Leave this field empty</label>
 	        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
@@ -155,14 +155,14 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = form.email.value;
+        const email = form.email.value.trim().toLowerCase();
+        form.email.value = email;
         const honeypot = form.website ? form.website.value : "";
         const submittedAt = Date.now();
         const dwellMs = submittedAt - openedAt;
 
         if (honeypot) {
           responseMessage.innerText = "We couldn't process your signup. Please try again.";
-          form.reset();
           return;
         }
 
@@ -209,6 +209,8 @@
               'event_category': 'Signup',
               'event_label': 'Early Access Form'
             });
+
+            form.reset();
           }
 
           responseMessage.innerText =
@@ -222,8 +224,6 @@
         } catch (err) {
           responseMessage.innerText = "Error connecting to server.";
         }
-
-        form.reset();
       });
     });
   </script>
