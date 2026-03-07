@@ -189,17 +189,7 @@
           formData.append("nonce", challenge.nonce);
           formData.append("signature", challenge.signature);
           formData.append("issuedAt", challenge.issuedAt);
-          formData.append("submittedAt", String(submittedAt));
-          formData.append("dwellMs", String(dwellMs));
-          formData.append("website", honeypot);
           formData.append("origin", window.location.origin);
-
-          if (typeof window.turnstile === "object" && typeof window.turnstile.getResponse === "function") {
-            const turnstileToken = window.turnstile.getResponse();
-            if (turnstileToken) {
-              formData.append("turnstileToken", turnstileToken);
-            }
-          }
 
           const res = await fetch(endpoint, { method: "POST", body: formData });
           const text = await res.text();
