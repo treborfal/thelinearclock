@@ -156,14 +156,14 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = form.email.value;
+        const email = form.email.value.trim().toLowerCase();
+        form.email.value = email;
         const honeypot = form.website ? form.website.value : "";
         const submittedAt = Date.now();
         const dwellMs = submittedAt - openedAt;
 
         if (honeypot) {
           responseMessage.innerText = "We couldn't process your signup. Please try again.";
-          form.reset();
           return;
         }
 
@@ -193,17 +193,7 @@
           formData.append("nonce", challenge.nonce);
           formData.append("signature", challenge.signature);
           formData.append("issuedAt", challenge.issuedAt);
-          formData.append("submittedAt", String(submittedAt));
-          formData.append("dwellMs", String(dwellMs));
-          formData.append("website", honeypot);
           formData.append("origin", window.location.origin);
-
-          if (typeof window.turnstile === "object" && typeof window.turnstile.getResponse === "function") {
-            const turnstileToken = window.turnstile.getResponse();
-            if (turnstileToken) {
-              formData.append("turnstileToken", turnstileToken);
-            }
-          }
 
           const res = await fetch(endpoint, { method: "POST", body: formData });
           const text = await res.text();
@@ -213,6 +203,8 @@
               'event_category': 'Signup',
               'event_label': 'Early Access Form'
             });
+
+            form.reset();
           }
 
           responseMessage.innerText =
@@ -229,8 +221,6 @@
           button.disabled = false;
           button.removeAttribute("aria-busy");
         }
-
-        form.reset();
       });
     });
   </script>
