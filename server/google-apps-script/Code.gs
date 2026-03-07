@@ -2,9 +2,9 @@
  * Google Apps Script endpoint for shop email signups.
  *
  * SECURITY MODEL:
- * - No shared client secret in browser code.
- * - GET `?action=challenge` issues a short-lived signed nonce.
- * - POST validates origin + nonce signature + nonce TTL/replay.
+ * - Browser submits via plain form/no-cors POST (no readable cross-origin response).
+ * - POST validates allowed origin, honeypot, dwell time, and email format.
+ * - Optional challenge endpoint can still be used for future hardening.
  * - Secrets remain in Script Properties only.
  *
  * Required Script Properties:
@@ -36,10 +36,9 @@ function doPost(e) {
     .filter(Boolean);
 
   const email = normalizeEmail_(param_(e, 'email'));
-  const nonce = param_(e, 'nonce');
-  const issuedAt = param_(e, 'issuedAt');
-  const signature = param_(e, 'signature');
   const origin = param_(e, 'origin');
+  const honeypot = param_(e, 'website');
+  const dwellMs = Number(param_(e, 'dwellMs'));
 
   if (!allowedOrigins.includes(origin)) {
     return textResponse('Unauthorized');
@@ -49,16 +48,13 @@ function doPost(e) {
     return textResponse('Invalid email');
   }
 
-  if (!nonce || !issuedAt || !signature || !isValidChallenge_(nonce, issuedAt, signature)) {
+  if (honeypot) {
     return textResponse('Unauthorized');
   }
 
-  const usedNonceKey = `used_nonce_${nonce}`;
-  if (props.getProperty(usedNonceKey)) {
+  if (!Number.isFinite(dwellMs) || dwellMs < 3000 || dwellMs > 86400000) {
     return textResponse('Unauthorized');
   }
-
-  props.setProperty(usedNonceKey, Date.now().toString());
 
   const sheetId = props.getProperty('SHEET_ID');
   if (!sheetId) {

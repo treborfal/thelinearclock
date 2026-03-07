@@ -1,5 +1,6 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbzO7lmY6q5DmwJaqhFCr-ak-dhD5DWuRjHFpOuMkEJgFZ9eypoWvBpCxE9a6znBtf5hfw/exec";
 const minDwellMs = 3000;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("notify-button");
@@ -37,24 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (!emailPattern.test(String(email || "").trim())) {
+      responseMessage.innerText = "Please enter a valid email address.";
+      return;
+    }
+
     try {
-      const challengeRes = await fetch(`${endpoint}?action=challenge`, { method: "GET" });
-
-      if (!challengeRes.ok) {
-        throw new Error("Challenge request failed");
-      }
-
-      const challenge = await challengeRes.json();
-
-      if (!challenge?.nonce || !challenge?.signature || !challenge?.issuedAt) {
-        throw new Error("Failed to obtain challenge payload");
-      }
-
       const formData = new FormData();
       formData.append("email", email);
-      formData.append("nonce", challenge.nonce);
-      formData.append("signature", challenge.signature);
-      formData.append("issuedAt", challenge.issuedAt);
       formData.append("submittedAt", String(submittedAt));
       formData.append("dwellMs", String(dwellMs));
       formData.append("website", honeypot);
@@ -67,24 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      const res = await fetch(endpoint, { method: "POST", body: formData });
-      const text = await res.text();
+      await fetch(endpoint, { method: "POST", mode: "no-cors", body: formData });
 
-      if (text === "Success" && typeof window.gtag === "function") {
+      if (typeof window.gtag === "function") {
         window.gtag("event", "notify_submit", {
           event_category: "Signup",
           event_label: "Early Access Form"
         });
       }
 
-      responseMessage.innerText =
-        text === "Success"
-          ? "Thanks! Your support means a lot!."
-          : text === "Invalid email"
-            ? "Please enter a valid email address."
-            : text === "CaptchaRequired"
-              ? "Please complete verification and try again."
-              : "We couldn't process your signup right now. Please try again later.";
+      responseMessage.innerText = "Thanks! Your support means a lot!";
     } catch (error) {
       responseMessage.innerText = "Error connecting to server.";
     }
