@@ -25,9 +25,40 @@ body.light-theme {
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
   padding:120px 0 50px;
-     background: url('../images/hero-image.png') center/cover no-repeat;
-	 background-color:#030303;
+  background-color:#030303;
+}
+
+.hero-block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../images/hero-image.png') center/cover repeat-x;
+  transform: translate3d(0, 0, 0);
+  animation: heroWaveDrift 24s linear infinite;
+  will-change: transform;
+  z-index: 0;
+}
+
+.hero-block > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes heroWaveDrift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-3%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-block::before {
+    animation: none;
+  }
 }
 
 /* Center content inside hero */
