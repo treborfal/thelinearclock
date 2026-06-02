@@ -41,20 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
     let hour12 = hour24 % 12;
     if (hour12 === 0) hour12 = 12;
 
-    document.querySelectorAll(".hour-dot").forEach((hourDot) => {
+    const liveClock = document.getElementById("live-clock");
+    if (!liveClock) return;
+
+    liveClock.querySelectorAll(".hour-dot").forEach((hourDot) => {
       const h = parseInt(hourDot.getAttribute("data-hour"), 10);
       const hourEl = hourDot.querySelector(".hour");
       if (hourEl) hourEl.classList.toggle("active", h === hour12);
     });
 
     const highlightCount = Math.floor(minutes / 5);
-    document.querySelectorAll(".dot").forEach((dot) => {
+    liveClock.querySelectorAll(".dot").forEach((dot) => {
       const index = parseInt(dot.getAttribute("data-index"), 10);
       dot.classList.toggle("active", index <= highlightCount);
     });
 
-    const amEl = document.querySelector(".am-pm-center .am");
-    const pmEl = document.querySelector(".am-pm-center .pm");
+    const amEl = liveClock.querySelector(".am-pm-center .am");
+    const pmEl = liveClock.querySelector(".am-pm-center .pm");
     if (amEl && pmEl) {
       amEl.classList.toggle("active", isAM);
       pmEl.classList.toggle("active", !isAM);
@@ -73,4 +76,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateClock();
   setInterval(updateClock, 1000);
+
+  const carousel = document.getElementById("carousel");
+  if (carousel) {
+    const items = carousel.querySelectorAll(".carousel-inner .item");
+    const indicators = carousel.querySelectorAll(".carousel-indicators li");
+
+    function goToSlide(n) {
+      items.forEach((item, i) => item.classList.toggle("active", i === n));
+      indicators.forEach((ind, i) => ind.classList.toggle("active", i === n));
+    }
+
+    indicators.forEach((ind, i) => ind.addEventListener("click", () => goToSlide(i)));
+  }
 });

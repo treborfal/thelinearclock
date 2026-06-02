@@ -235,7 +235,8 @@ body.light-theme {
 /* AM/PM container in the center, below the row of hours */
 .am-pm-center {
   display: flex;
-  gap: 30px; /* space between AM and PM */
+  gap: 30px;
+  align-items: center;
 }
 
 /* Both AM & PM are shown; only the active one is bright */
@@ -265,6 +266,17 @@ body.light-theme {
     gap: 5px;
 }
 
+/* Carousel snapshot clocks — non-interactive, forced dark theme.
+   No size or width overrides: uses the same 800px + centering as the live clock. */
+.clock-snapshot {
+  pointer-events: none;
+  --border-color: #1a1a1a;
+  --hour-dim: #fff;
+  --hour-active: #fff;
+  --hour-active-text: #000;
+  --clock-bg: #0b0b0b;
+}
+
 /* Responsive shrink if screen < 800px */
 @media (max-width: 1024px) {
   .clock-container {
@@ -279,17 +291,17 @@ body.light-theme {
     height: 4.2vw;
     margin-bottom: 1vw;
   }
-  
+
   .hours {
     margin-bottom: 3vw; /* space below, for the AM/PM row */
   }
-  
+
   .dot {
     width: 0.8vw;
     height: 0.8vw;
   }
 	.am-pm-center {
-  gap: 3vw; 
+  gap: 3vw;
 }
   .am-pm {
     font-size: 1.2vw;

@@ -93,7 +93,7 @@
    </div>
 		   
   <!-- Main clock container -->
-  <div class="clock-container layout-linear">
+  <div id="live-clock" class="clock-container layout-linear">
     <!-- Hours row -->
     <div class="hours">
       <div class="hour-dot" data-hour="1">
@@ -247,8 +247,8 @@ full width image -->
       <div class="col-md-8 col-md-offset-2 text-center animated fadeInUpBig">
         <h1>How it works</h1>
         </div>
-      <div class="col-md-offset-2 col-md-8">
-        <div id="carousel" class="carousel slide carousel-fade fadeIn wow margin-bottom-30 " data-ride="carousel"> 
+      <div class="col-md-12">
+        <div id="carousel" class="carousel slide carousel-fade fadeIn wow margin-bottom-30 " data-ride="carousel">
           
           <!-- indicators -->
           <ol class="carousel-indicators carousel-indicators-text">
@@ -258,10 +258,94 @@ full width image -->
             <li data-target="#carousel" data-slide-to="3"><i class="fa fa-clock-o"></i> 7:45pm</li>
           </ol>
           <div class="carousel-inner">
-            <div class="item active" data-slide-number="0"> <img src="images/slide-255am.png" alt="2:55am The Linear Clock"> </div>
-            <div class="item" data-slide-number="1"> <img src="images/slide-530pm.png" alt="5:30pm The Linear Clock"> </div>
-            <div class="item" data-slide-number="2"> <img src="images/slide-1010am.png" alt="10:10am The Linear Clock"> </div>
-            <div class="item" data-slide-number="3"> <img src="images/slide-745pm.png" alt="7:45pm The Linear Clock"> </div>
+            <div class="item active" data-slide-number="0">
+              <div class="clock-container clock-snapshot">
+                <div class="hours">
+                  <div class="hour-dot" data-hour="1"><div class="hour">1</div><div class="dot active" data-index="1"></div></div>
+                  <div class="hour-dot" data-hour="2"><div class="hour active">2</div><div class="dot active" data-index="2"></div></div>
+                  <div class="hour-dot" data-hour="3"><div class="hour">3</div><div class="dot active" data-index="3"></div></div>
+                  <div class="hour-dot" data-hour="4"><div class="hour">4</div><div class="dot active" data-index="4"></div></div>
+                  <div class="hour-dot" data-hour="5"><div class="hour">5</div><div class="dot active" data-index="5"></div></div>
+                  <div class="hour-dot" data-hour="6"><div class="hour">6</div><div class="dot active" data-index="6"></div></div>
+                  <div class="hour-dot" data-hour="7"><div class="hour">7</div><div class="dot active" data-index="7"></div></div>
+                  <div class="hour-dot" data-hour="8"><div class="hour">8</div><div class="dot active" data-index="8"></div></div>
+                  <div class="hour-dot" data-hour="9"><div class="hour">9</div><div class="dot active" data-index="9"></div></div>
+                  <div class="hour-dot" data-hour="10"><div class="hour">10</div><div class="dot active" data-index="10"></div></div>
+                  <div class="hour-dot" data-hour="11"><div class="hour">11</div><div class="dot active" data-index="11"></div></div>
+                  <div class="hour-dot" data-hour="12"><div class="hour">12</div><div class="dot hidden-dot" data-index="12"></div></div>
+                </div>
+                <div class="am-pm-center">
+                  <div class="am-pm am active">AM</div>
+                  <div class="am-pm pm">PM</div>
+                </div>
+              </div>
+            </div>
+            <div class="item" data-slide-number="1">
+              <div class="clock-container clock-snapshot">
+                <div class="hours">
+                  <div class="hour-dot" data-hour="1"><div class="hour">1</div><div class="dot active" data-index="1"></div></div>
+                  <div class="hour-dot" data-hour="2"><div class="hour">2</div><div class="dot active" data-index="2"></div></div>
+                  <div class="hour-dot" data-hour="3"><div class="hour">3</div><div class="dot active" data-index="3"></div></div>
+                  <div class="hour-dot" data-hour="4"><div class="hour">4</div><div class="dot active" data-index="4"></div></div>
+                  <div class="hour-dot" data-hour="5"><div class="hour active">5</div><div class="dot active" data-index="5"></div></div>
+                  <div class="hour-dot" data-hour="6"><div class="hour">6</div><div class="dot active" data-index="6"></div></div>
+                  <div class="hour-dot" data-hour="7"><div class="hour">7</div><div class="dot" data-index="7"></div></div>
+                  <div class="hour-dot" data-hour="8"><div class="hour">8</div><div class="dot" data-index="8"></div></div>
+                  <div class="hour-dot" data-hour="9"><div class="hour">9</div><div class="dot" data-index="9"></div></div>
+                  <div class="hour-dot" data-hour="10"><div class="hour">10</div><div class="dot" data-index="10"></div></div>
+                  <div class="hour-dot" data-hour="11"><div class="hour">11</div><div class="dot" data-index="11"></div></div>
+                  <div class="hour-dot" data-hour="12"><div class="hour">12</div><div class="dot hidden-dot" data-index="12"></div></div>
+                </div>
+                <div class="am-pm-center">
+                  <div class="am-pm am">AM</div>
+                  <div class="am-pm pm active">PM</div>
+                </div>
+              </div>
+            </div>
+            <div class="item" data-slide-number="2">
+              <div class="clock-container clock-snapshot">
+                <div class="hours">
+                  <div class="hour-dot" data-hour="1"><div class="hour">1</div><div class="dot active" data-index="1"></div></div>
+                  <div class="hour-dot" data-hour="2"><div class="hour">2</div><div class="dot active" data-index="2"></div></div>
+                  <div class="hour-dot" data-hour="3"><div class="hour">3</div><div class="dot" data-index="3"></div></div>
+                  <div class="hour-dot" data-hour="4"><div class="hour">4</div><div class="dot" data-index="4"></div></div>
+                  <div class="hour-dot" data-hour="5"><div class="hour">5</div><div class="dot" data-index="5"></div></div>
+                  <div class="hour-dot" data-hour="6"><div class="hour">6</div><div class="dot" data-index="6"></div></div>
+                  <div class="hour-dot" data-hour="7"><div class="hour">7</div><div class="dot" data-index="7"></div></div>
+                  <div class="hour-dot" data-hour="8"><div class="hour">8</div><div class="dot" data-index="8"></div></div>
+                  <div class="hour-dot" data-hour="9"><div class="hour">9</div><div class="dot" data-index="9"></div></div>
+                  <div class="hour-dot" data-hour="10"><div class="hour active">10</div><div class="dot" data-index="10"></div></div>
+                  <div class="hour-dot" data-hour="11"><div class="hour">11</div><div class="dot" data-index="11"></div></div>
+                  <div class="hour-dot" data-hour="12"><div class="hour">12</div><div class="dot hidden-dot" data-index="12"></div></div>
+                </div>
+                <div class="am-pm-center">
+                  <div class="am-pm am active">AM</div>
+                  <div class="am-pm pm">PM</div>
+                </div>
+              </div>
+            </div>
+            <div class="item" data-slide-number="3">
+              <div class="clock-container clock-snapshot">
+                <div class="hours">
+                  <div class="hour-dot" data-hour="1"><div class="hour">1</div><div class="dot active" data-index="1"></div></div>
+                  <div class="hour-dot" data-hour="2"><div class="hour">2</div><div class="dot active" data-index="2"></div></div>
+                  <div class="hour-dot" data-hour="3"><div class="hour">3</div><div class="dot active" data-index="3"></div></div>
+                  <div class="hour-dot" data-hour="4"><div class="hour">4</div><div class="dot active" data-index="4"></div></div>
+                  <div class="hour-dot" data-hour="5"><div class="hour">5</div><div class="dot active" data-index="5"></div></div>
+                  <div class="hour-dot" data-hour="6"><div class="hour">6</div><div class="dot active" data-index="6"></div></div>
+                  <div class="hour-dot" data-hour="7"><div class="hour active">7</div><div class="dot active" data-index="7"></div></div>
+                  <div class="hour-dot" data-hour="8"><div class="hour">8</div><div class="dot active" data-index="8"></div></div>
+                  <div class="hour-dot" data-hour="9"><div class="hour">9</div><div class="dot active" data-index="9"></div></div>
+                  <div class="hour-dot" data-hour="10"><div class="hour">10</div><div class="dot" data-index="10"></div></div>
+                  <div class="hour-dot" data-hour="11"><div class="hour">11</div><div class="dot" data-index="11"></div></div>
+                  <div class="hour-dot" data-hour="12"><div class="hour">12</div><div class="dot hidden-dot" data-index="12"></div></div>
+                </div>
+                <div class="am-pm-center">
+                  <div class="am-pm am">AM</div>
+                  <div class="am-pm pm active">PM</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
