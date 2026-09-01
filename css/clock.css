@@ -1,23 +1,33 @@
-/* THEME VARIABLES (dark/light) */
+/* DEVICE THEME VARIABLES — sampled from the product front renders.
+   Casing 854x334, screen inset 31px all round (792x272).            */
 :root {
-  --border-color: #1a1a1a;   /* clock border */
-  --hour-dim: #fff;          /* dim color for hours/dots */
-  --hour-active: #fff;       /* active shape background */
-  --hour-active-text: #000;  /* active text inside circle/pill */
-  --outline-color:#3a3a3a;
-  --time-display-color:#fff;
-  --clock-bg: #0b0b0b;
-
+  /* dark colourway */
+  --casing-bg: #2A2A28;
+  --screen-bg: linear-gradient(180deg, #3C3C39 0%, #383834 100%);
+  --screen-flat: #3A3A37;
+  --hour-dim: #BFC2B5;
+  --hour-active-bg: #C1C5B8;
+  --hour-active-text: #33332D;
+  --dot-color: #8E9184;
+  --ampm-dim: #BFC2B5;
+  --ampm-active-bg: #C1C5B8;
+  --ampm-active-text: #33332D;
+  --time-display-color: #BFC2B5;
 }
 
 body.light-theme {
-  --border-color: #F1F1F1;
-  --hour-dim: #000;
-  --hour-active: #000;
-  --hour-active-text: #fff;
-  --outline-color:#eee;
-  --time-display-color:#000;
-  --clock-bg: #E3E3E3;
+  /* light colourway */
+  --casing-bg: #E7E6DA;
+  --screen-bg: linear-gradient(180deg, #D3D6CA 0%, #C6CABD 100%);
+  --screen-flat: #CCCFC2;
+  --hour-dim: #42423C;
+  --hour-active-bg: #302F2C;
+  --hour-active-text: #CCCFC2;
+  --dot-color: #42423C;
+  --ampm-dim: #42423C;
+  --ampm-active-bg: #302F2C;
+  --ampm-active-text: #E7E6DA;
+  --time-display-color: #42423C;
 }
 
 /* Hero block styling */
@@ -29,17 +39,16 @@ body.light-theme {
   position: relative;
   overflow: hidden;
   padding:120px 0 50px;
-  background-color:#030303;
+  background-color:#262523;
 }
 
 .hero-block::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: url('../images/hero-image.png') center/cover repeat-x;
-  transform: translate3d(0, 0, 0);
-  animation: heroWaveDrift 24s linear infinite;
-  will-change: transform;
+  background: url('../images/hero-image.png') center/cover no-repeat;
+  opacity: 0.8;
+  mix-blend-mode: screen;
   z-index: 0;
 }
 
@@ -48,25 +57,10 @@ body.light-theme {
   z-index: 1;
 }
 
-@keyframes heroWaveDrift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-3%, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-block::before {
-    animation: none;
-  }
-}
-
 /* Center content inside hero */
 .hero-content {
   text-align: center;
-  color: #fff; /* text color if needed */
+  color: #DFDED4; /* text color if needed */
 }
 
 /* THEME TOGGLE CONTAINER & BUTTONS */
@@ -77,7 +71,7 @@ body.light-theme {
   justify-content: center; /* center horizontally */
 }
 
-.hero-content h1, .hero-content p {color: #ffffff}
+.hero-content h1, .hero-content p {color: #DFDED4}
 .hero-content p {font-size:1.3em;}
 
 /* Both theme buttons are circles */
@@ -111,7 +105,7 @@ body.light-theme {
 .clock-container-demo {
   width: 100%;
   height: 100px;
-  background: var(--clock-bg);
+  background: var(--screen-flat);
   display: flex;
   flex-direction: column; /* stack .hours above .am-pm-center */
   align-items: center;    /* center horizontally */
@@ -119,30 +113,46 @@ body.light-theme {
   font-weight:500;
 }
 
-/* Main clock container */
+/* Main clock container = the device CASING */
 .clock-container {
-  width: 800px;
-  height: auto; /* Let it expand based on content */
+  --casing-w: min(854px, 90vw);
+  --bezel: calc(var(--casing-w) * 31 / 854);   /* 31px inset at full size */
 
-  /* 20px top/bottom, 60px left/right */
-  padding: 60px 60px 40px 60px;
+  position: relative;
+  width: var(--casing-w);
+  aspect-ratio: 854 / 334;
+  /* more top than bottom padding nudges the content group down toward centre */
+  padding: calc(var(--bezel) * 1.9) calc(var(--bezel) * 1.6) var(--bezel);
 
-  /* Thicker border (10px) + radius (10px) */
-  border: 10px solid var(--border-color);
-  border-radius: 20px;
-  
-  /*outline:solid 2px var(--outline-color);*/
-
-  /* Subtle gradient background */
-  background: var(--clock-bg);
-  box-shadow: 0 -1px 1px rgba(256,256,256,0.3), 0 20px 60px rgba(0,0,0,0.2), inset 0 0 3px rgba(0,0,0,0.2);
+  border-radius: calc(var(--casing-w) * 32 / 854);
+  background: var(--casing-bg);
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,0.22),
+    inset 0 -8px 14px rgba(0,0,0,0.10),
+    0 24px 44px -16px rgba(0,0,0,0.22);
 
   display: flex;
   flex-direction: column; /* stack .hours above .am-pm-center */
-  align-items: center;    /* center horizontally */
-  margin:40px auto;
+  align-items: center;
+  justify-content: center;
+  margin: 40px auto;
 
-  font-weight:500;
+  font-weight: 500;
+}
+
+/* the inset e-ink SCREEN */
+.clock-container::before {
+  content: "";
+  position: absolute;
+  inset: var(--bezel);
+  border-radius: calc(var(--casing-w) * 8 / 854);
+  background: var(--screen-bg);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.clock-container > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ========== Layout Toggle Container ========== */
@@ -164,7 +174,7 @@ body.light-theme {
   background-color: #999; /* Just a neutral color; adjust if you like */
 }
 .layout-btn.active {
-  border-color: #ff0; /* highlight color when active */
+  border-color: #FF5C03; /* highlight color when active */
 }
 
 /* ========== Layout Variations ========== */
@@ -181,13 +191,14 @@ body.light-theme {
 
 
 
-/* The row of hours/dots */
+/* The row of hours/dots — 680px wide inside the 792px screen (per Figma),
+   expressed against the casing so it scales at every size. */
 .hours {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;  /* fill the container's width */
-  margin-bottom: 30px; /* space below, for the AM/PM row */
+  justify-content: space-between;
+  align-items: flex-start;
+  width: calc(var(--casing-w) * 680 / 854);
+  margin-bottom: calc(var(--casing-w) * 0.045);
 }
 
 /* Each hour + dot block */
@@ -196,62 +207,101 @@ body.light-theme {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* hour on top, dot below */
-  width: 50px;  /* tweak as needed for spacing */
+  width: calc(var(--casing-w) * 0.055);
 }
 
-/* The hour number */
+/* The hour number (also the active-hour disc) */
 .hour {
-  font-size: 2rem;
+  font-size: calc(var(--casing-w) * 0.037);
   color: var(--hour-dim);
-  margin-bottom: 10px;
+  margin-bottom: calc(var(--casing-w) * 0.012);
   transition: color 0.3s, background-color 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: calc(var(--casing-w) * 0.055);
+  height: calc(var(--casing-w) * 0.055);
   border-radius: 50%;
 }
 .hour.active {
   color: var(--hour-active-text);
-  background-color: var(--hour-active);
+  background-color: var(--hour-active-bg);
 }
 
 /* The dot for minutes */
 .dot {
-  width: 6px;
-  height: 6px;
+  width: calc(var(--casing-w) * 0.007);
+  height: calc(var(--casing-w) * 0.007);
   border-radius: 50%;
   background-color: transparent;
   transition: background-color 0.3s;
 }
 .dot.active {
-  background-color: var(--hour-active);
+  background-color: var(--dot-color);
 }
 .hidden-dot {
   visibility: hidden; /* so hour 12 aligns with others */
 }
 
-/* AM/PM container in the center, below the row of hours */
+/* AM/PM cluster, below the row of hours */
 .am-pm-center {
   display: flex;
-  gap: 30px;
+  gap: calc(var(--casing-w) * 0.02);
   align-items: center;
 }
 
 /* Both AM & PM are shown; only the active one is bright */
 .am-pm {
-  font-size: 0.8rem;
-  color: var(--hour-dim);
+  font-size: calc(var(--casing-w) * 0.018);
+  letter-spacing: 0.04em;
+  color: var(--ampm-dim);
   opacity: 1;
   transition: color 0.3s, background-color 0.3s, opacity 0.3s;
 }
 .am-pm.active {
-  color: var(--hour-active-text);
-  background-color: var(--hour-active);
-  border-radius: 50px;
-  padding: 3px 10px;
+  color: var(--ampm-active-text);
+  background-color: var(--ampm-active-bg);
+  border-radius: 999px;
+  padding: calc(var(--casing-w) * 0.004) calc(var(--casing-w) * 0.011);
   opacity: 1;
+}
+
+/* ---- one-time "power on" reveal (hero clock only; JS adds .clock-intro) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes clockScreenOn {
+    0%   { filter: brightness(1.09); }
+    100% { filter: none; }
+  }
+  @keyframes clockPartIn {
+    from { opacity: 0; transform: translateY(3px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes clockActiveIn {
+    from { opacity: 0; transform: scale(0.86); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .clock-intro::before {
+    animation: clockScreenOn 300ms ease-out both;
+  }
+  .clock-intro .hour {
+    opacity: 0;
+    animation: clockPartIn 240ms ease-out both;
+    animation-delay: calc(var(--i, 0) * 16ms);
+  }
+  .clock-intro .hour.active {
+    animation-name: clockActiveIn;
+    animation-duration: 300ms;
+  }
+  .clock-intro .dot {
+    opacity: 0;
+    animation: clockPartIn 200ms ease-out both;
+    animation-delay: calc(120ms + var(--i, 0) * 14ms);
+  }
+  .clock-intro .am-pm-center {
+    opacity: 0;
+    animation: clockPartIn 240ms ease-out 220ms both;
+  }
 }
 
 /* Time display below the clock container */
@@ -266,50 +316,26 @@ body.light-theme {
     gap: 5px;
 }
 
-/* Carousel snapshot clocks — non-interactive, forced dark theme.
-   No size or width overrides: uses the same 800px + centering as the live clock. */
+/* Carousel snapshot clocks — non-interactive, forced dark colourway
+   (they live inside body.light-theme, so re-assert the dark device here). */
 .clock-snapshot {
   pointer-events: none;
-  --border-color: #1a1a1a;
-  --hour-dim: #fff;
-  --hour-active: #fff;
-  --hour-active-text: #000;
-  --clock-bg: #0b0b0b;
+  --casing-bg: #2A2A28;
+  --screen-bg: linear-gradient(180deg, #3C3C39 0%, #383834 100%);
+  --screen-flat: #3A3A37;
+  --hour-dim: #BFC2B5;
+  --hour-active-bg: #C1C5B8;
+  --hour-active-text: #33332D;
+  --dot-color: #8E9184;
+  --ampm-dim: #BFC2B5;
+  --ampm-active-bg: #C1C5B8;
+  --ampm-active-text: #33332D;
 }
 
-/* Responsive shrink if screen < 800px */
-@media (max-width: 1024px) {
-  .clock-container {
-    max-width: 80vw;
-    padding: 5vw 4vw 4vw 4vw;
-	 border-radius: 2vw;
-	 border: 1vw solid var(--border-color);
-  }
-  .hour {
-    font-size: 3.2vw;
-    width: 4.2vw;
-    height: 4.2vw;
-    margin-bottom: 1vw;
-  }
-
-  .hours {
-    margin-bottom: 3vw; /* space below, for the AM/PM row */
-  }
-
-  .dot {
-    width: 0.8vw;
-    height: 0.8vw;
-  }
-	.am-pm-center {
-  gap: 3vw;
-}
-  .am-pm {
-    font-size: 1.2vw;
-  }
-  .time-display {
-    font-size: 1.2vw;
-  }
-
+/* The device is fully proportional to --casing-w, so it scales on its own.
+   On small screens let it use a little more of the viewport width. */
+@media (max-width: 600px) {
+  .clock-container { --casing-w: 94vw; }
 }
 
 /* Responsive shrink if screen < 500px */

@@ -1,5 +1,19 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
+
+/* Warm "muji" palette
+   #F1F0E8 paper · #DFDED4 cream · #C2C7BC sage · #262523 charcoal · #FF5C03 accent */
+:root {
+	--color-cream: #F1F0E8;        /* page surface — lighter than the image backgrounds so they read as cards */
+	--color-cream-deep: #DFDED4;   /* .light content sections */
+	--color-sage: #C2C7BC;
+	--color-charcoal: #262523;     /* dark sections / hero / footer — deep warm near-black */
+	--color-accent: #FF5C03;
+	--color-ink: #33322F;          /* body text */
+	--color-ink-inverse: #DFDED4;  /* text on charcoal */
+	--color-muted: #6E6E66;        /* warm secondary grey */
+}
+
 html {
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
@@ -9,13 +23,13 @@ body {
 }
 body, html {
 	padding-bottom: 0px;
-	color: #111;
+	color: var(--color-ink);
     font-family: "Work Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 	line-height: 1.6;
-	background-color: #f3f3f3;
+	background-color: var(--color-sage);
 	font-size: 100%;
 	margin: 0px;
 }
@@ -27,22 +41,24 @@ body, html {
 }
 
 ::-moz-selection {
-background:#ff0c0c;
+background:var(--color-accent);
+color:#fff;
 text-shadow:none;
 }
 ::selection {
-	background: #ff0c0c;
+	background: var(--color-accent);
+	color: #fff;
 	text-shadow: none;
 }
 a {
-	color: #111;
+	color: var(--color-ink);
 	text-decoration: underline
 }
 a:hover {
-	color: #111
+	color: var(--color-ink)
 }
 .dark a:hover {
-	color: #fff
+	color: var(--color-ink-inverse)
 }
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
 	line-height: 1.5;
@@ -83,13 +99,13 @@ p {
 	font-size: 1.1em
 }
 
-.quote {border-left: 4px solid #111;
+.quote {border-left: 4px solid var(--color-ink);
     padding: 20px;
     margin-left: 20px;}
 	
-	.quote p {font-size:0.8em; color:#9c9c9c;}
+	.quote p {font-size:0.8em; color:var(--color-muted);}
 
-p.caption {font-size:0.8em;color:#9c9c9c;text-align:center;}
+p.caption {font-size:0.8em;color:var(--color-muted);text-align:center;}
 .linethrough {
     text-decoration: line-through;
 }
@@ -101,7 +117,7 @@ ol, ul {
 	max-width: 1440px;
 	margin: 0 auto;
 	padding:0 30px 30px;
-	background-color:white;
+	background-color:var(--color-cream);
 	box-shadow:0 0 120px rgba(0, 0, 0, .15);
 }
 
@@ -156,6 +172,79 @@ img {
 
 .rounded-img {border-radius:32px;}
 
+/* image galleries: image tiles ride the same 16px gutter grid as the
+   content cards — flush to the same left/right edges, 16px between tiles
+   and 16px above/below the block. */
+.image-gallery {
+	padding: 0;
+	margin-bottom: 16px;
+}
+.image-gallery .row {
+	display: flex;
+	gap: 16px;
+	margin: 0;
+}
+.image-gallery .row::before,
+.image-gallery .row::after {
+	display: none;
+}
+.image-gallery [class*="col-"] {
+	flex: 1 1 0;
+	min-width: 0;
+	width: auto;
+	padding: 0;
+}
+.image-gallery .overflow-hidden {
+	border-radius: 28px;
+}
+.image-gallery img {
+	border-radius: 28px;
+	display: block;
+}
+
+@media (max-width: 991px) {
+	.image-gallery .row {
+		flex-direction: column;
+	}
+	.image-gallery [class*="col-"] {
+		flex: 0 0 auto;
+	}
+}
+@media (max-width: 767px) {
+	.image-gallery {
+		margin-bottom: 10px;
+	}
+	.image-gallery .row {
+		gap: 10px;
+	}
+}
+
+/* soft rounded section cards to match the clock device */
+.hero-block,
+.container-fluid.light,
+.container-fluid.dark,
+.container-fluid.grey {
+	border-radius: 32px;
+	margin-bottom: 16px;
+}
+footer .container-fluid {
+	border-radius: 32px 32px 0 0;
+	margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+	.hero-block,
+	.container-fluid.light,
+	.container-fluid.dark,
+	.container-fluid.grey {
+		border-radius: 22px;
+		margin-bottom: 10px;
+	}
+	footer .container-fluid {
+		border-radius: 22px 22px 0 0;
+	}
+}
+
 .profile {
 	width: 60px;
 	height: 60px
@@ -176,17 +265,17 @@ img {
 	overflow: hidden
 }
 .dark {
-	background-color: #030303;
-	color: #fff
+	background-color: var(--color-charcoal);
+	color: var(--color-ink-inverse)
 }
 .light {
-	background-color: #ffffff;
-	color: #111
+	background-color: var(--color-cream-deep);
+	color: var(--color-ink)
 }
 
 .grey {
-	background-color: #f3f3f3;
-	color: #111
+	background-color: var(--color-sage);
+	color: var(--color-ink)
 }
 
 
@@ -212,14 +301,42 @@ img {
 	
 footer {
 	font-size: 0.75em;
-	border-bottom: 30px solid #030303
+}
+footer .footer-block {
+	padding: 72px 0 0;
+	overflow: hidden;
+}
+footer .container {
+	position: relative;
+	z-index: 1;
+}
+footer p {color:var(--color-ink-inverse); margin: 6px 0;}
+footer a {color:var(--color-ink-inverse);text-decoration:none}
+footer a:hover {text-decoration:underline}
+footer .footer-social a {margin: 0 8px; font-size: 1.3em;}
+footer .footer-copy {
+	color: var(--color-muted);
+	max-width: 620px;
+	margin: 18px auto 0;
+	line-height: 1.7;
 }
 
-footer p {color:#999}
-footer a {color:#111;text-decoration:none}
-footer a:hover {text-decoration:underline}
+/* oversized wordmark that spans the full footer width */
+.footer-wordmark {
+	display: block;
+	width: 100%;
+	margin: 44px 0 0;
+	opacity: 0.9;
+}
 
-.footer-logo {width:88px;height:41px; margin:0 auto;}
+@media (max-width: 767px) {
+	footer .footer-block {
+		padding-top: 48px;
+	}
+	.footer-wordmark {
+		margin-top: 32px;
+	}
+}
 
 .nextto {
     display: inline-block;
@@ -235,19 +352,19 @@ footer a:hover {text-decoration:underline}
 	    margin-top: 50px;
 	    margin-bottom: 50px;
 	    border: 0;
-	    border-top: 1px solid #f3f3f3;
+	    border-top: 1px solid var(--color-sage);
 	}
 	
 ul.ticks li {margin-bottom:20px}
 
 /* SIGN UP FORM */
 form#email-form {text-align:center; padding:10px 0 10px 0;}
-form#email-form input.email {border: 1px solid #cccccc;
+form#email-form input.email {border: 1px solid #B7BBB0;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
 	border-radius: 100px;
-	color: #111;
-	background-color: #fff;
+	color: var(--color-ink);
+	background-color: var(--color-cream);
 	box-sizing:border-box;
 	height:48px;
 	padding: 0px 15px;
@@ -260,8 +377,8 @@ form#email-form button {border: none;width:100%;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
 	border-radius: 100px;
-	color: #fff;
-	background-color: #111;
+	color: var(--color-ink-inverse);
+	background-color: var(--color-ink);
 	box-sizing:border-box;
 	height:48px;
 	line-height:48px;
@@ -269,8 +386,8 @@ form#email-form button {border: none;width:100%;
 	display: inline-block;
 	margin: 0;
 	transition: all 0.23s ease-in-out 0s;}
-form#email-form button:hover {background-color:#666; cursor:pointer;}
-p.terms {font-size: 0.8em; color: #666;margin-top:0}
+form#email-form button:hover {background-color:var(--color-muted); cursor:pointer;}
+p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 
 
 
@@ -285,7 +402,7 @@ p.terms {font-size: 0.8em; color: #666;margin-top:0}
 	left: 0;
 	z-index: 20;
 	width: 100%;
-	background-color: #fff;
+	background-color: var(--color-cream);
 	
 }
 /* Flip around the padding for proper display in narrow viewports */
@@ -304,7 +421,7 @@ p.terms {font-size: 0.8em; color: #666;margin-top:0}
 	padding: 12px 15px;
 }
 .navbar-default {
-	background-color: #fff;
+	background-color: var(--color-cream);
 	border: none;
 	box-shadow:0 0 120px rgba(0, 0, 0, .15);
 }
@@ -316,7 +433,7 @@ p.terms {font-size: 0.8em; color: #666;margin-top:0}
 	margin: 0 auto;
 }
 .navbar-default .navbar-text {
-	color: #111;
+	color: var(--color-ink);
 	font-size: 14px
 }
 
@@ -324,11 +441,11 @@ p.terms {font-size: 0.8em; color: #666;margin-top:0}
 	border:none;
 }
 
-.navbar-default .navbar-toggle:hover {background-color:#f3f3f3;}
-.navbar-default .navbar-toggle .icon-bar {background-color:#111;}
+.navbar-default .navbar-toggle:hover {background-color:var(--color-sage);}
+.navbar-default .navbar-toggle .icon-bar {background-color:var(--color-ink);}
 
-.navbar-default .navbar-nav>li>a {color:#111;font-size:0.8em;text-decoration:none;}
-.navbar-default .navbar-nav>li>a:hover {color:#111;font-size:0.8em;text-decoration:underline;}
+.navbar-default .navbar-nav>li>a {color:var(--color-ink);font-size:0.8em;text-decoration:none;}
+.navbar-default .navbar-nav>li>a:hover {color:var(--color-ink);font-size:0.8em;text-decoration:underline;}
 
 .navbar-right {
 	margin-right: 0 !important;
@@ -403,13 +520,13 @@ p.terms {font-size: 0.8em; color: #666;margin-top:0}
 	left: 0;
 }
 .carousel-indicators-text li {
-	background-color: #111;
+	background-color: var(--color-ink);
 	text-indent: 0;
 	margin: 10px;
 	width: 110px;
 	height: 33px;
-	color: #ffffff;
-	border: 2px solid #666666;
+	color: var(--color-ink-inverse);
+	border: 2px solid var(--color-muted);
 	border-radius: 25px;
 	line-height: 30px;
 	transition: all 0.25s ease;
@@ -418,17 +535,17 @@ p.terms {font-size: 0.8em; color: #666;margin-top:0}
 	margin: 10px;
 	width: 110px;
 	height: 33px;
-	background-color: #fff;
-	color: #333;
-	border: 2px solid #fff;
+	background-color: var(--color-cream);
+	color: var(--color-ink);
+	border: 2px solid var(--color-cream);
 }
 .carousel-indicators-text li:hover {
 	margin: 10px;
 	width: 110px;
 	height: 33px;
-	color: #fff;
-	border: 2px solid #fff;
-	background-color: #111;
+	color: var(--color-ink-inverse);
+	border: 2px solid var(--color-cream);
+	background-color: var(--color-ink);
 }
 
 /* RESPONSIVE CSS

@@ -270,7 +270,9 @@ p.caption a:hover {text-decoration:underline;color:var(--text-muted);
 
   .layout-stack .hour {
     font-size: 4vw;
-	margin-bottom:1vw;
+    width: 5.5vw;
+    height: 5.5vw;
+    margin-bottom: 1vw;
   }
   
   .layout-stack .hours {
@@ -302,20 +304,17 @@ p.caption a:hover {text-decoration:underline;color:var(--text-muted);
 
 @media (max-width: 600px) {
   /* 1) Let each hour‑dot shrink instead of forcing 50px */
- .layout-linear .hour-dot .layout-stack .hour-dot {
-    width: auto;          /* drop the fixed 50px */
-    padding: 0 0.5vw;     /* small horizontal breathing room */
+  .layout-linear .hour-dot, .layout-stack .hour-dot {
+    width: auto;
+    padding: 0 0.5vw;
     box-sizing: border-box;
   }
 
-  /* 2) Reduce the font a bit so two‑digit labels still fit */
+  /* 2) Scale font and circle together so active circle contains the number */
   .layout-linear .hour, .layout-stack .hour {
     font-size: 7vw !important;
-    margin-bottom: 1vw;
-  }
-  
-  .layout-linear .hour, .layout-stack .hour {
-    font-size: 7vw !important;
+    width: 9vw !important;
+    height: 9vw !important;
     margin-bottom: 1vw;
   }
 
