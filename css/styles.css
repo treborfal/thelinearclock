@@ -303,7 +303,7 @@ footer {
 	font-size: 0.75em;
 }
 footer .footer-block {
-	padding: 72px 0 0;
+	padding: 80px 0 44px;
 	overflow: hidden;
 }
 footer .container {
@@ -311,9 +311,8 @@ footer .container {
 	z-index: 1;
 }
 footer p {color:var(--color-ink-inverse); margin: 6px 0;}
-footer a {color:var(--color-ink-inverse);text-decoration:none}
-footer a:hover {text-decoration:underline}
-footer .footer-social a {margin: 0 8px; font-size: 1.3em;}
+footer a {color:var(--color-ink-inverse);text-decoration:underline}
+footer a:hover {color:var(--color-accent)}
 footer .footer-copy {
 	color: var(--color-muted);
 	max-width: 620px;
@@ -386,8 +385,18 @@ form#email-form button {border: none;width:100%;
 	display: inline-block;
 	margin: 0;
 	transition: all 0.23s ease-in-out 0s;}
-form#email-form button:hover {background-color:var(--color-muted); cursor:pointer;}
+form#email-form button:hover {background-color:var(--color-accent); color:#fff; cursor:pointer;}
 p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
+
+/* footer call-to-action — lives inside the charcoal footer block */
+#register {scroll-margin-top: 90px; font-size: 1rem; margin-bottom: 12px;}
+#register h2 {margin-bottom: 18px;}
+#register p {margin: 16px auto; font-size: 1.1em;}
+#register form#email-form {margin-top: 24px;}
+#register p.terms {margin-top: 16px; font-size: 0.85em; color: var(--color-ink-inverse); opacity: 0.65;}
+#register [tabindex="-1"]:focus {outline: none;}
+.footer-block #email-form button {background-color: var(--color-accent); color: #fff;}
+.footer-block #email-form button:hover {background-color: var(--color-accent); filter: brightness(1.08);}
 
 
 

@@ -10,6 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!button || !form || !responseMessage) return;
 
+  // the block that holds the heading, intro copy, form and terms — swapped out on success
+  const panel = form.parentElement;
+
+  const showConfirmation = () => {
+    panel.innerHTML =
+      '<h2>You’re on the list.</h2>' +
+      '<p>Thanks — your interest genuinely helps decide whether Linear gets made. ' +
+      'We’ll email you first when there’s news.</p>';
+    panel.setAttribute("role", "status");
+    panel.setAttribute("tabindex", "-1");
+    panel.focus();
+  };
+
   button.addEventListener("click", () => {
     if (typeof window.gtag === "function") {
       window.gtag("event", "notify_click", {
@@ -43,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    button.disabled = true;
+    responseMessage.innerText = "Sending…";
+
     try {
       const formData = new FormData();
       formData.append("email", email);
@@ -67,11 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      responseMessage.innerText = "Thanks! Your support means a lot!";
+      showConfirmation();
     } catch (error) {
-      responseMessage.innerText = "Error connecting to server.";
+      button.disabled = false;
+      responseMessage.innerText = "Something went wrong sending that. Please try again.";
     }
-
-    form.reset();
   });
 });
