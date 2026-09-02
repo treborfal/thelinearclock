@@ -62,6 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("light-theme",  settings.theme === "light");
     clockContainer.classList.toggle("layout-stack",  settings.layout === "stack");
     clockContainer.classList.toggle("layout-linear", settings.layout === "linear");
+    // format class drives the active-marker shape: a circle for single-glyph
+    // standard digits, a text-hugging pill for the wider Roman / Kanji forms
+    clockContainer.classList.toggle("format-standard", settings.format === "standard");
+    clockContainer.classList.toggle("format-roman",    settings.format === "roman");
+    clockContainer.classList.toggle("format-kanji",    settings.format === "kanji");
     localStorage.setItem("theme",  settings.theme);
     localStorage.setItem("layout", settings.layout);
     localStorage.setItem("format", settings.format);
@@ -147,8 +152,60 @@ document.addEventListener("DOMContentLoaded", () => {
 		const hhmm   = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 		currentTimeEl.textContent = `Current time is ${hhmm}`;
       overlay.classList.add("active");
+      hideEditCursor();
     }
   });
+
+  // 9b) Cursor-following "Edit" pill — discoverability hint for the modal
+  const editCursor  = document.querySelector(".edit-cursor");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let targetX = window.innerWidth / 2;
+  let targetY = window.innerHeight / 2;
+  let posX = targetX;
+  let posY = targetY;
+  let followRaf = null;
+  let idleTimer = null;
+
+  function hideEditCursor() {
+    if (editCursor) editCursor.classList.remove("is-visible");
+    clearTimeout(idleTimer);
+  }
+
+  function showEditCursor() {
+    if (!editCursor || overlay.classList.contains("active")) return;
+    editCursor.classList.add("is-visible");
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(hideEditCursor, 2000);
+  }
+
+  function followTick() {
+    posX += (targetX - posX) * 0.18;
+    posY += (targetY - posY) * 0.18;
+    editCursor.style.left = posX + "px";
+    editCursor.style.top  = posY + "px";
+    if (Math.abs(targetX - posX) > 0.4 || Math.abs(targetY - posY) > 0.4) {
+      followRaf = requestAnimationFrame(followTick);
+    } else {
+      followRaf = null;
+    }
+  }
+
+  if (editCursor) {
+    window.addEventListener("mousemove", (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      if (reduceMotion) {
+        posX = targetX;
+        posY = targetY;
+        editCursor.style.left = posX + "px";
+        editCursor.style.top  = posY + "px";
+      } else if (!followRaf) {
+        followRaf = requestAnimationFrame(followTick);
+      }
+      showEditCursor();
+    });
+    document.addEventListener("mouseleave", hideEditCursor);
+  }
   overlay.addEventListener("click", e => {
     if (e.target === overlay) {
       overlay.classList.remove("active");

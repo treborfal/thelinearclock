@@ -1,21 +1,25 @@
-/* THEME VARIABLES (dark/light) */
+/* THEME VARIABLES (dark/light)
+   Warm "muji" palette — matches the main website (css/styles.css):
+   #F1F0E8 cream · #DFDED4 cream-deep · #C2C7BC sage
+   #262523 charcoal · #33322F ink · #FF5C03 accent · #6E6E66 muted */
 :root {
-  --hour-dim: #fff;          /* dim color for hours/dots */
-  --hour-active: #fff;       /* active shape background */
-  --hour-active-text: #000;  /* active text inside circle/pill */
-  --time-display-color:#fff;
-  --clock-bg: #000000;
-  --text-muted: #666666;
-
+  --hour-dim: #DFDED4;          /* dim color for hours/dots */
+  --hour-active: #DFDED4;       /* active shape background */
+  --hour-active-text: #262523;  /* active text inside circle/pill */
+  --time-display-color: #DFDED4;
+  --clock-bg: #262523;
+  --text-muted: #6E6E66;
+  --accent: #FF5C03;
 }
 
 body.light-theme {
-  --hour-dim: #000;
-  --hour-active: #000;
-  --hour-active-text: #fff;
-  --time-display-color:#000;
-  --clock-bg: #ffffff;
-  --text-muted: #888888;
+  --hour-dim: #33322F;
+  --hour-active: #33322F;
+  --hour-active-text: #F1F0E8;
+  --time-display-color: #33322F;
+  --clock-bg: #F1F0E8;
+  --text-muted: #6E6E66;
+  --accent: #FF5C03;
 }
 
 body, html {
@@ -27,6 +31,90 @@ body, html {
 	background-color: var(--clock-bg);
 	font-size: 100%;
 	margin: 0px;
+}
+
+/* the whole page is one big "open settings" hit area */
+body { cursor: pointer; }
+
+
+/* === CURSOR-FOLLOWING "EDIT" AFFORDANCE ===
+   Trails the real cursor to signal the page is editable; clicking anywhere
+   opens the settings modal. Hidden on touch (see .edit-fab fallback). */
+.edit-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 0.85em;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font: 600 0.8rem/1 "Work Sans", sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) translate(16px, 20px) scale(0.8);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  will-change: left, top, transform;
+}
+.edit-cursor.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) translate(16px, 20px) scale(1);
+}
+.edit-cursor svg {
+  width: 0.95em;
+  height: 0.95em;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edit-cursor { transition: opacity 0.2s ease; }
+}
+
+/* real pill button: the touch fallback, and the keyboard entry point on
+   desktop (hidden until focused so it doesn't compete with the cursor pill) */
+.edit-fab {
+  position: fixed;
+  left: 50%;
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.85em 1.4em;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font: 600 0.95rem/1 "Work Sans", sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.edit-fab svg {
+  width: 1em;
+  height: 1em;
+}
+.edit-fab:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .edit-cursor { display: none; }
+  .edit-fab {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 
@@ -112,6 +200,31 @@ body, html {
 margin-bottom:1vw;
 }
 
+/* Roman numerals ("VIII", "XII") and Kanji ("十一", "十二") are far wider than
+   a single digit, so the fixed 1:1 circle can't contain them when active.
+   For those two formats the active marker becomes a pill that hugs the glyphs
+   — the same treatment .am-pm.active already uses. Sizing is in `em` so it
+   tracks the responsive font-size at every breakpoint; the container-class
+   selector keeps specificity above the `!important` width/height rules below.
+   Standard digits are untouched and keep their circle. */
+.clock-container.format-roman .hour,
+.clock-container.format-kanji .hour {
+  width: auto !important;
+  min-width: 1.32em !important;   /* ≈ the circle's diameter → stays round for I/V/X */
+  height: 1.32em !important;
+  padding: 0 0.26em;
+  border-radius: 999px;
+}
+
+/* In the single-row layout the wide numerals ("VIII", "十二") would crowd their
+   neighbours at tablet widths. Let the columns hug their content so the row's
+   space-around distributes even gaps between the pills. */
+.clock-container.format-roman.layout-linear .hour-dot,
+.clock-container.format-kanji.layout-linear .hour-dot {
+  width: auto;
+  padding: 0 0.5vw;
+}
+
 /* The dot for minutes */
 .dot {
   width: 0.8vw;
@@ -192,11 +305,15 @@ margin-bottom:1vw;
   border: none;
   border-radius: 10rem;
   cursor: pointer;
-  background: var(--hour-active);
-  color: var(--clock-bg);
+  background: var(--accent);
+  color: #fff;
   width:100%;
   font-size: 1rem;
   font-family: "Work Sans", sans-serif;
+  transition: filter 0.2s;
+}
+#close-settings:hover {
+  filter: brightness(1.08);
 }
 
 #current-time {
