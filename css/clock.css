@@ -26,7 +26,7 @@ body.light-theme {
   --dot-color: #42423C;
   --ampm-dim: #42423C;
   --ampm-active-bg: #302F2C;
-  --ampm-active-text: #E7E6DA;
+  --ampm-active-text: #CCCFC2; /* match --hour-active-text (screen colour), not the casing */
   --time-display-color: #42423C;
 }
 
@@ -73,6 +73,21 @@ body.light-theme {
 
 .hero-content h1, .hero-content p {color: #DFDED4}
 .hero-content p {font-size:1.3em;}
+
+/* live time caption below the device — same type as other .caption text,
+   just lightened for the dark hero */
+.hero-time.caption {
+  margin: 20px 0 0;
+  font-size: 0.8em; /* match site-wide p.caption, not the 1.3em hero paragraph */
+  color: #DFDED4;
+  opacity: 0.65;
+}
+.hero-time .fa {
+  margin-right: 0.45em;
+}
+.hero-time .time-text {
+  font-variant-numeric: tabular-nums;
+}
 
 /* Both theme buttons are circles */
 .theme-btn {
@@ -125,11 +140,22 @@ body.light-theme {
   padding: calc(var(--bezel) * 1.9) calc(var(--bezel) * 1.6) var(--bezel);
 
   border-radius: calc(var(--casing-w) * 32 / 854);
-  background: var(--casing-bg);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.05) 55%, rgba(0,0,0,0.10)),
+    var(--casing-bg);
   box-shadow:
-    inset 0 2px 1px rgba(255,255,255,0.22),
-    inset 0 -8px 14px rgba(0,0,0,0.10),
-    0 24px 44px -16px rgba(0,0,0,0.22);
+    /* top edge catches the light */
+    inset 0 3px 2px rgba(255,255,255,0.30),
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    /* lower half falls into shadow */
+    inset 0 -16px 26px rgba(0,0,0,0.20),
+    inset 0 -3px 4px rgba(0,0,0,0.24),
+    /* sides */
+    inset 3px 0 6px rgba(0,0,0,0.07),
+    inset -3px 0 6px rgba(0,0,0,0.07),
+    /* drop + contact shadow on the hero ground */
+    0 6px 14px -6px rgba(0,0,0,0.45),
+    0 34px 58px -18px rgba(0,0,0,0.55);
 
   display: flex;
   flex-direction: column; /* stack .hours above .am-pm-center */
@@ -147,7 +173,12 @@ body.light-theme {
   inset: var(--bezel);
   border-radius: calc(var(--casing-w) * 8 / 854);
   background: var(--screen-bg);
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.12);
+  /* the screen sits recessed inside the casing */
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.18),
+    inset 0 4px 10px rgba(0,0,0,0.28),
+    inset 0 2px 3px rgba(0,0,0,0.22),
+    inset 0 -3px 6px rgba(255,255,255,0.10);
 }
 
 .clock-container > * {
@@ -268,8 +299,15 @@ body.light-theme {
 
 /* ---- one-time "power on" reveal (hero clock only; JS adds .clock-intro) ---- */
 @media (prefers-reduced-motion: no-preference) {
+  @keyframes clockDeviceIn {
+    from { opacity: 0; transform: translateY(28px) scale(0.985); }
+    to   { opacity: 1; transform: none; }
+  }
+  /* e-ink style refresh: screen sits dark, then flashes on */
   @keyframes clockScreenOn {
-    0%   { filter: brightness(1.09); }
+    0%   { filter: brightness(0.18) contrast(1.5); }
+    46%  { filter: brightness(0.18) contrast(1.5); }
+    58%  { filter: brightness(1.15); }
     100% { filter: none; }
   }
   @keyframes clockPartIn {
@@ -281,26 +319,33 @@ body.light-theme {
     to   { opacity: 1; transform: scale(1); }
   }
 
+  .clock-intro {
+    animation: clockDeviceIn 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
   .clock-intro::before {
-    animation: clockScreenOn 300ms ease-out both;
+    animation: clockScreenOn 520ms ease-out 200ms both;
   }
   .clock-intro .hour {
     opacity: 0;
     animation: clockPartIn 240ms ease-out both;
-    animation-delay: calc(var(--i, 0) * 16ms);
+    animation-delay: calc(430ms + var(--i, 0) * 15ms);
   }
   .clock-intro .hour.active {
     animation-name: clockActiveIn;
-    animation-duration: 300ms;
+    animation-duration: 320ms;
   }
   .clock-intro .dot {
     opacity: 0;
     animation: clockPartIn 200ms ease-out both;
-    animation-delay: calc(120ms + var(--i, 0) * 14ms);
+    animation-delay: calc(540ms + var(--i, 0) * 13ms);
   }
   .clock-intro .am-pm-center {
     opacity: 0;
-    animation: clockPartIn 240ms ease-out 220ms both;
+    animation: clockPartIn 240ms ease-out 660ms both;
+  }
+  .clock-intro ~ .hero-time {
+    opacity: 0;
+    animation: clockPartIn 260ms ease-out 720ms both;
   }
 }
 
@@ -317,9 +362,27 @@ body.light-theme {
 }
 
 /* Carousel snapshot clocks — non-interactive, forced dark colourway
-   (they live inside body.light-theme, so re-assert the dark device here). */
-.clock-snapshot {
+   (they live inside body.light-theme, so re-assert the dark device here).
+   Selector is doubled up so --casing-w wins over the responsive
+   `.clock-container` rule further down. */
+.clock-container.clock-snapshot {
   pointer-events: none;
+
+  /* Size to the (padded) carousel column, not the viewport, so the casing
+     and its shadow never spill past the container and get clipped. */
+  --casing-w: min(760px, calc(100vw - 96px));
+
+  /* These are inline display pieces, not the floating hero device — keep the
+     casing modelling but drop the big contact shadow. */
+  box-shadow:
+    inset 0 3px 2px rgba(255,255,255,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -14px 22px rgba(0,0,0,0.18),
+    inset 0 -3px 4px rgba(0,0,0,0.22),
+    inset 3px 0 6px rgba(0,0,0,0.07),
+    inset -3px 0 6px rgba(0,0,0,0.07),
+    0 12px 26px -16px rgba(0,0,0,0.45);
+
   --casing-bg: #2A2A28;
   --screen-bg: linear-gradient(180deg, #3C3C39 0%, #383834 100%);
   --screen-flat: #3A3A37;

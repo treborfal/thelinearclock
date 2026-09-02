@@ -1,7 +1,16 @@
 // Site-wide behavior and clock rendering.
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.body.classList.add("light-theme");
+  // Device colourway: light casing during the day, dark after dark.
+  // `?casing=light` / `?casing=dark` forces one (handy for testing).
+  const casingParam = new URLSearchParams(window.location.search).get("casing");
+  const daytime =
+    casingParam === "light" ||
+    (casingParam !== "dark" && (() => {
+      const h = new Date().getHours();
+      return h >= 6 && h < 18;
+    })());
+  document.body.classList.toggle("light-theme", daytime);
 
   document.querySelectorAll(".js-current-year").forEach((yearEl) => {
     yearEl.textContent = new Date().getFullYear();
@@ -66,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeTextEl = document.querySelector(".time-text");
     if (timeTextEl) {
       const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
-      timeTextEl.textContent = `${hour12}:${minutesStr}${isAM ? "AM" : "PM"}`;
+      timeTextEl.textContent = `${hour12}:${minutesStr} ${isAM ? "AM" : "PM"}`;
     }
 
     if (typeof moveGradient === "function") {

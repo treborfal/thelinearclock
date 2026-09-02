@@ -32,8 +32,8 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 <link href="css/animate.css?v=13" rel="stylesheet">
-<link href="css/styles.css?v=19" rel="stylesheet">
-<link href="css/clock.css?v=13" rel="stylesheet">
+<link href="css/styles.css?v=21" rel="stylesheet">
+<link href="css/clock.css?v=19" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -153,7 +153,10 @@
     </div>
   </div>
 
- 
+  <!-- Live time caption below the device -->
+  <p class="hero-time caption"><i class="fa fa-clock"></i>Your time: <span class="time-text">--:--</span></p>
+
+
 
   <!-- Theme toggle container 
   <div class="theme-toggle-container">
@@ -172,27 +175,26 @@
     <button class="layout-btn layout-linear-btn" data-layout="linear"></button>
     <button class="layout-btn layout-stack-btn" data-layout="stack"></button>
   </div>-->
-  
+
+  </div>
   </div>
   </section>
 
   <script>
-  /* one-time "power on" reveal for the hero clock */
+  /* one-time-per-session "power on" reveal for the hero clock */
   (function () {
     try {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       var clock = document.getElementById("live-clock");
       if (!clock) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var booted;
+      try { booted = sessionStorage.getItem("tlc-hero-booted"); } catch (e) {}
+      if (booted) return;
+      try { sessionStorage.setItem("tlc-hero-booted", "1"); } catch (e) {}
       var dots = clock.querySelectorAll(".hour-dot");
       for (var i = 0; i < dots.length; i++) dots[i].style.setProperty("--i", i);
       clock.classList.add("clock-intro");
-      var cleanup = function () { clock.classList.remove("clock-intro"); };
-      var t;
-      clock.addEventListener("animationend", function () {
-        clearTimeout(t);
-        t = setTimeout(cleanup, 150);
-      });
-      setTimeout(cleanup, 1600); /* safety net */
+      setTimeout(function () { clock.classList.remove("clock-intro"); }, 1400);
     } catch (e) {}
   })();
   </script>
@@ -272,10 +274,10 @@ full width image -->
           
           <!-- indicators -->
           <ol class="carousel-indicators carousel-indicators-text">
-            <li data-target="#carousel" data-slide-to="0" class="active"><i class="fa fa-clock-o"></i> 2:55am</li>
-            <li data-target="#carousel" data-slide-to="1"><i class="fa fa-clock-o"></i> 5:30pm</li>
-            <li data-target="#carousel" data-slide-to="2"><i class="fa fa-clock-o"></i> 10:10am</li>
-            <li data-target="#carousel" data-slide-to="3"><i class="fa fa-clock-o"></i> 7:45pm</li>
+            <li data-target="#carousel" data-slide-to="0" class="active"><i class="fa fa-clock"></i> 2:55am</li>
+            <li data-target="#carousel" data-slide-to="1"><i class="fa fa-clock"></i> 5:30pm</li>
+            <li data-target="#carousel" data-slide-to="2"><i class="fa fa-clock"></i> 10:10am</li>
+            <li data-target="#carousel" data-slide-to="3"><i class="fa fa-clock"></i> 7:45pm</li>
           </ol>
           <div class="carousel-inner">
             <div class="item active" data-slide-number="0">
@@ -427,20 +429,20 @@ full width image -->
 		  <h1>Linear, at a glance.</h1>
 		</div>
        <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.1s">
-         <p><i class="fa fa-tint"></i><br>Black or white e-ink screen for high contrast and readability.</p>
+         <p><i class="fa fa-book"></i><br>A paper-like e-ink screen, black-on-white or white-on-black. Sharp in daylight, no glare, no backlight.</p>
        </div>
        <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.2s">
-         <p><i class="fa fa-arrows-h"></i><br>Large and small display, as well as a watch face.</p>
+         <p><i class="fa fa-battery-full"></i><br>Around three months on a charge. E-ink only draws power when the minute changes; top up over USB-C.</p>
        </div>
-      
+
       <div class="clearfix visible-sm-block visible-xs-block"></div>
-      
+
        <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.3s">
-         <p><i class="fa fa-battery-full"></i><br>Long lasting charge with a USB-C cable.</p>
+         <p><i class="fa fa-cube"></i><br>A matte, almost seamless casing, sized to stand on a desk and sit quietly next to everything else.</p>
        </div>
-      
+
        <div class="col-xs-6 col-md-3 padding-30 fadeInUpBig wow" data-wow-delay="0.4s">
-         <p><i class="fa fa-magnet"></i><br>Magnetic mounting, no drilling or cables.</p>
+         <p><i class="fa fa-clock"></i><br>It only tells the time. No app, no Wi-Fi, no account &mdash; set it once and leave it be.</p>
        </div>
      </div> 
     

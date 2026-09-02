@@ -29,7 +29,7 @@ body, html {
     font-weight: 400;
     font-style: normal;
 	line-height: 1.6;
-	background-color: var(--color-sage);
+	background-color: var(--color-cream);
 	font-size: 100%;
 	margin: 0px;
 }
@@ -212,10 +212,10 @@ img {
 }
 @media (max-width: 767px) {
 	.image-gallery {
-		margin-bottom: 10px;
+		margin-bottom: 12px;
 	}
 	.image-gallery .row {
-		gap: 10px;
+		gap: 12px;
 	}
 }
 
@@ -226,6 +226,15 @@ img {
 .container-fluid.grey {
 	border-radius: 32px;
 	margin-bottom: 16px;
+}
+
+/* Bootstrap's fixed-width .container (750 / 970 / 1170) is sized for a
+   viewport-edge layout. Inside these inset section cards it's wider than the
+   card on most laptop widths, so the right-hand column loses its gutter and
+   can spill past the rounded edge. Let it be fluid, capped at the xl width. */
+.container-fluid > .container {
+	width: 100%;
+	max-width: 1170px;
 }
 footer .container-fluid {
 	border-radius: 32px 32px 0 0;
@@ -238,7 +247,7 @@ footer .container-fluid {
 	.container-fluid.dark,
 	.container-fluid.grey {
 		border-radius: 22px;
-		margin-bottom: 10px;
+		margin-bottom: 12px;
 	}
 	footer .container-fluid {
 		border-radius: 22px 22px 0 0;
@@ -480,6 +489,10 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 }
 .carousel-fade .carousel-inner {
 	position: relative;
+	/* fade carousel stacks items and cross-fades — it never slides — so it
+	   doesn't need to clip, and clipping cuts the device casing + its shadow
+	   with a hard edge. */
+	overflow: visible;
 }
 .carousel-fade .carousel-inner .item {
 	display: block;
@@ -594,7 +607,9 @@ body, html {
 }
 
 .container-wrapper {
-	padding:0px;
+	/* keep a gutter on every device so the section cards still read
+	   as cards rather than full-bleed bands */
+	padding:0 16px 16px;
 }
 .feature-image {
 	height: 400px
@@ -619,6 +634,11 @@ body, html {
 
 h1.headline {font-size:2.8em;
 	line-height: 1;
+}
+
+.container-wrapper {
+	/* slightly tighter gutter on phones, but still enough to read as cards */
+	padding:0 12px 12px;
 }
 
 .padding-100, .padding-50 {
