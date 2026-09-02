@@ -8,7 +8,7 @@
   --hour-dim: #BFC2B5;
   --hour-active-bg: #C1C5B8;
   --hour-active-text: #33332D;
-  --dot-color: #8E9184;
+  --dot-color: var(--hour-dim);   /* minute dots match the hour numbers */
   --ampm-dim: #BFC2B5;
   --ampm-active-bg: #C1C5B8;
   --ampm-active-text: #33332D;
@@ -23,7 +23,7 @@ body.light-theme {
   --hour-dim: #42423C;
   --hour-active-bg: #302F2C;
   --hour-active-text: #CCCFC2;
-  --dot-color: #42423C;
+  --dot-color: var(--hour-dim);
   --ampm-dim: #42423C;
   --ampm-active-bg: #302F2C;
   --ampm-active-text: #CCCFC2; /* match --hour-active-text (screen colour), not the casing */
@@ -411,7 +411,7 @@ body.light-theme {
   --hour-dim: #BFC2B5;
   --hour-active-bg: #C1C5B8;
   --hour-active-text: #33332D;
-  --dot-color: #8E9184;
+  --dot-color: var(--hour-dim);
   --ampm-dim: #BFC2B5;
   --ampm-active-bg: #C1C5B8;
   --ampm-active-text: #33332D;
