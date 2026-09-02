@@ -61,6 +61,20 @@ body.light-theme {
 .hero-content {
   text-align: center;
   color: #DFDED4; /* text color if needed */
+  width: 100%;
+  min-width: 0; /* flex item: allow it to stay within the hero card */
+}
+
+/* Same fluid-container treatment as the section cards: Bootstrap's fixed
+   .container width overflows the rounded hero card (which clips it) on
+   laptop widths, and the device/headline bleed to the edge on mobile. */
+.hero-content > .container {
+  width: 100%;
+  max-width: 1170px;
+}
+/* keep the hero device inside the card, with a gutter, at every width */
+.hero-block .clock-container {
+  --casing-w: min(854px, calc(100vw - 96px));
 }
 
 /* THEME TOGGLE CONTAINER & BUTTONS */
