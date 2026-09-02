@@ -228,6 +228,12 @@ img {
 	margin-bottom: 16px;
 }
 
+/* clear the fixed navbar so the hero card's rounded top is visible
+   (other pages space their first card with .margin-top-50) */
+.hero-block {
+	margin-top: 50px;
+}
+
 /* Bootstrap's fixed-width .container (750 / 970 / 1170) is sized for a
    viewport-edge layout. Inside these inset section cards it's wider than the
    card on most laptop widths, so the right-hand column loses its gutter and
@@ -441,7 +447,6 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 .navbar-default {
 	background-color: var(--color-cream);
 	border: none;
-	box-shadow:0 0 120px rgba(0, 0, 0, .15);
 }
 .navbar-header {
 	padding: 0 15px;
