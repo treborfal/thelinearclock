@@ -42,6 +42,14 @@ body.light-theme {
   background-color:#262523;
 }
 
+/* match the vertical rhythm of .padding-100 on smaller screens */
+@media (max-width: 1024px) {
+  .hero-block { padding-top: 80px; }
+}
+@media (max-width: 768px) {
+  .hero-block { padding-top: 30px; padding-bottom: 30px; }
+}
+
 .hero-block::before {
   content: "";
   position: absolute;
