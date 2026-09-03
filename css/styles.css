@@ -496,6 +496,11 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 }
 .carousel-fade .carousel-inner {
 	position: relative;
+	/* Stack every slide in the same grid cell so the container is always as
+	   tall as the tallest slide. With position:absolute the active slide sat
+	   in a different layout context and rendered ~80px shorter, so switching
+	   slides made the block jump. */
+	display: grid;
 	/* fade carousel stacks items and cross-fades — it never slides — so it
 	   doesn't need to clip, and clipping cuts the device casing + its shadow
 	   with a hard edge. */
@@ -503,17 +508,16 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 }
 .carousel-fade .carousel-inner .item {
 	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
+	grid-area: 1 / 1;
 	width: 100%;
 	opacity: 0;
-	transition: opacity 0.6s ease-in-out;
+	/* Navigation is manual only (no auto-advance); snap straight to the
+	   chosen time rather than cross-fading, which read as clunky. */
+	transition: none;
 	z-index: 1;
 }
 .carousel-fade .carousel-inner .active {
 	opacity: 1;
-	position: relative;
 	z-index: 2;
 }
 .carousel-fade .carousel-control {
@@ -568,13 +572,17 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 	color: var(--color-ink);
 	border: 2px solid var(--color-cream);
 }
-.carousel-indicators-text li:hover {
-	margin: 10px;
-	width: 110px;
-	height: 33px;
-	color: var(--color-ink-inverse);
-	border: 2px solid var(--color-cream);
-	background-color: var(--color-ink);
+/* Only real pointers get a hover state, and never on the current slide — on
+   touch the :hover style used to stick after a tap and mask the active state. */
+@media (hover: hover) {
+	.carousel-indicators-text li:hover:not(.active) {
+		margin: 10px;
+		width: 110px;
+		height: 33px;
+		color: var(--color-ink-inverse);
+		border: 2px solid var(--color-cream);
+		background-color: var(--color-ink);
+	}
 }
 
 /* RESPONSIVE CSS
