@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const showConfirmation = () => {
     panel.innerHTML =
       '<h2>You’re on the list.</h2>' +
-      '<p>Thanks — your interest genuinely helps decide whether Linear gets made. ' +
+      '<p>Thanks — your interest genuinely helps decide whether the Linear Clock gets made. ' +
       'We’ll email you first when there’s news.</p>';
     panel.setAttribute("role", "status");
     panel.setAttribute("tabindex", "-1");
