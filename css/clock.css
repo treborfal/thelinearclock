@@ -5,6 +5,16 @@
   --casing-bg: #2A2A28;
   --screen-bg: linear-gradient(180deg, #3C3C39 0%, #383834 100%);
   --screen-flat: #3A3A37;
+  /* top-edge sheen on the casing — kept low here so it doesn't blow out
+     against the dark casing */
+  --casing-top-glow: rgba(255,255,255,0.18);
+  --casing-top-glow-hair: rgba(255,255,255,0.08);
+  /* recessed e-ink screen — dark casing can take a firm inset edge */
+  --screen-inset-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.18),
+    inset 0 4px 10px rgba(0,0,0,0.28),
+    inset 0 2px 3px rgba(0,0,0,0.22),
+    inset 0 -3px 6px rgba(255,255,255,0.10);
   --hour-dim: #BFC2B5;
   --hour-active-bg: #C1C5B8;
   --hour-active-text: #33332D;
@@ -20,6 +30,15 @@ body.light-theme {
   --casing-bg: #E7E6DA;
   --screen-bg: linear-gradient(180deg, #D3D6CA 0%, #C6CABD 100%);
   --screen-flat: #CCCFC2;
+  --casing-top-glow: rgba(255,255,255,0.30);
+  --casing-top-glow-hair: rgba(255,255,255,0.14);
+  /* soft, blurred inset — no hard 1px line, which read as a black border
+     against the light screen */
+  --screen-inset-shadow:
+    inset 0 0 3px rgba(0,0,0,0.06),
+    inset 0 5px 14px rgba(0,0,0,0.11),
+    inset 0 2px 5px rgba(0,0,0,0.08),
+    inset 0 -4px 8px rgba(255,255,255,0.35);
   --hour-dim: #42423C;
   --hour-active-bg: #302F2C;
   --hour-active-text: #CCCFC2;
@@ -167,8 +186,8 @@ body.light-theme {
     var(--casing-bg);
   box-shadow:
     /* top edge catches the light */
-    inset 0 3px 2px rgba(255,255,255,0.30),
-    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 3px 2px var(--casing-top-glow),
+    inset 0 1px 0 var(--casing-top-glow-hair),
     /* lower half falls into shadow */
     inset 0 -16px 26px rgba(0,0,0,0.20),
     inset 0 -3px 4px rgba(0,0,0,0.24),
@@ -196,11 +215,7 @@ body.light-theme {
   border-radius: calc(var(--casing-w) * 8 / 854);
   background: var(--screen-bg);
   /* the screen sits recessed inside the casing */
-  box-shadow:
-    inset 0 0 0 1px rgba(0,0,0,0.18),
-    inset 0 4px 10px rgba(0,0,0,0.28),
-    inset 0 2px 3px rgba(0,0,0,0.22),
-    inset 0 -3px 6px rgba(255,255,255,0.10);
+  box-shadow: var(--screen-inset-shadow);
 }
 
 .clock-container > * {
@@ -397,8 +412,8 @@ body.light-theme {
   /* These are inline display pieces, not the floating hero device — keep the
      casing modelling but drop the big contact shadow. */
   box-shadow:
-    inset 0 3px 2px rgba(255,255,255,0.28),
-    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 3px 2px var(--casing-top-glow),
+    inset 0 1px 0 var(--casing-top-glow-hair),
     inset 0 -14px 22px rgba(0,0,0,0.18),
     inset 0 -3px 4px rgba(0,0,0,0.22),
     inset 3px 0 6px rgba(0,0,0,0.07),
@@ -408,6 +423,14 @@ body.light-theme {
   --casing-bg: #2A2A28;
   --screen-bg: linear-gradient(180deg, #3C3C39 0%, #383834 100%);
   --screen-flat: #3A3A37;
+  /* forced dark: re-assert the dark casing/screen modelling too */
+  --casing-top-glow: rgba(255,255,255,0.18);
+  --casing-top-glow-hair: rgba(255,255,255,0.08);
+  --screen-inset-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.18),
+    inset 0 4px 10px rgba(0,0,0,0.28),
+    inset 0 2px 3px rgba(0,0,0,0.22),
+    inset 0 -3px 6px rgba(255,255,255,0.10);
   --hour-dim: #BFC2B5;
   --hour-active-bg: #C1C5B8;
   --hour-active-text: #33332D;
