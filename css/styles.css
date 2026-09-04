@@ -681,6 +681,32 @@ footer {
 }
 }
 
+/* about-page signoff — small portrait left of the byline line */
+.byline {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-top: 40px;
+	padding-top: 24px;
+	border-top: 1px solid var(--color-sage);
+}
+.byline-photo {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	object-fit: cover;
+}
+.byline-text {
+	margin: 0;
+	font-size: 0.9em;
+	color: var(--color-muted);
+}
+.byline-name {
+	display: block;
+	color: var(--color-ink);
+}
+
 .honeypot-field {
   position: absolute;
   left: -10000px;
