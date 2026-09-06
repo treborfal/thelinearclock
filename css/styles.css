@@ -466,8 +466,74 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 	border:none;
 }
 
-.navbar-default .navbar-toggle:hover {background-color:var(--color-sage);}
 .navbar-default .navbar-toggle .icon-bar {background-color:var(--color-ink);}
+
+/* Mobile menu button — circular, quiet at rest; orange reveals on hover and
+   when open, where the bars cross into an X. Mobile-only (Bootstrap hides
+   the toggle from 768px up). */
+@media (max-width: 767px) {
+	.navbar-default .navbar-toggle {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border-radius: 50%;
+		background-color: var(--color-cream-deep);
+		transition: background-color 0.25s ease;
+	}
+
+	.navbar-default .navbar-toggle .icon-bar {
+		width: 22px;
+		height: 2px;
+		margin: 0;
+		border-radius: 1px;
+		transition: transform 0.25s ease, opacity 0.2s ease, background-color 0.25s ease;
+	}
+
+	/* keep focus on-palette (Bootstrap would grey it) without turning the
+	   bars orange — that's reserved for genuine hover intent */
+	.navbar-default .navbar-toggle:focus {
+		background-color: var(--color-cream-deep);
+	}
+	.navbar-default .navbar-toggle:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+	.navbar-default .navbar-toggle:hover {
+		background-color: var(--color-cream-deep);
+	}
+	.navbar-default .navbar-toggle:hover .icon-bar {
+		background-color: var(--color-accent);
+	}
+
+	/* open — JS drops the .collapsed class */
+	.navbar-default .navbar-toggle:not(.collapsed) {
+		background-color: var(--color-accent);
+	}
+	.navbar-default .navbar-toggle:not(.collapsed) .icon-bar {
+		background-color: #fff;
+	}
+	.navbar-default .navbar-toggle:not(.collapsed) .icon-bar:nth-of-type(2) {
+		transform: translateY(7px) rotate(45deg);
+	}
+	.navbar-default .navbar-toggle:not(.collapsed) .icon-bar:nth-of-type(3) {
+		opacity: 0;
+	}
+	.navbar-default .navbar-toggle:not(.collapsed) .icon-bar:nth-of-type(4) {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.navbar-default .navbar-toggle,
+	.navbar-default .navbar-toggle .icon-bar {
+		transition: none;
+	}
+}
 
 .navbar-default .navbar-nav>li>a {color:var(--color-ink);font-size:0.8em;text-decoration:none;}
 .navbar-default .navbar-nav>li>a:hover {color:var(--color-ink);font-size:0.8em;text-decoration:underline;}
