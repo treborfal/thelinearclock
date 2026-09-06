@@ -729,3 +729,24 @@ footer {
   height: 1px;
   overflow: hidden;
 }
+
+/* scroll-in animations — the two animate.css effects WOW.js triggers on this site
+   (fadeIn, fadeInUpBig), extracted so the full 72KB library isn't loaded. */
+.animated {
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+.fadeIn {
+	animation-name: fadeIn;
+}
+@keyframes fadeInUpBig {
+	from { opacity: 0; transform: translate3d(0, 30px, 0); }
+	to { opacity: 1; transform: none; }
+}
+.fadeInUpBig {
+	animation-name: fadeInUpBig;
+}
