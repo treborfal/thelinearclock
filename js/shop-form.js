@@ -15,9 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const showConfirmation = () => {
     panel.innerHTML =
+      '<span class="confirm-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>' +
       '<h2>You’re on the list.</h2>' +
       '<p>Thanks — your interest genuinely helps decide whether the Linear Clock gets made. ' +
-      'We’ll email you first when there’s news.</p>';
+      'I’ll email you first when I’ve got news.</p>';
     panel.setAttribute("role", "status");
     panel.setAttribute("tabindex", "-1");
     panel.focus();

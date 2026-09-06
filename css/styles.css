@@ -707,6 +707,20 @@ footer {
 	color: var(--color-ink);
 }
 
+/* registration confirmation — orange disc with a white tick, centred above the heading */
+.confirm-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 64px;
+	height: 64px;
+	margin: 0 auto 24px;
+	border-radius: 50%;
+	background: var(--color-accent);
+	color: #fff;
+	font-size: 28px;
+}
+
 .honeypot-field {
   position: absolute;
   left: -10000px;
