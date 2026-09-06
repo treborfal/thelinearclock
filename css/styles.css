@@ -480,6 +480,10 @@ p.terms {font-size: 0.8em; color: var(--color-muted);margin-top:0}
 		gap: 5px;
 		width: 44px;
 		height: 44px;
+		/* 44 + 3 + 3 keeps the navbar at its original 50px height, so the
+		   logo stays centred and the hero spacer still lines up */
+		margin-top: 3px;
+		margin-bottom: 3px;
 		padding: 0;
 		border-radius: 50%;
 		background-color: var(--color-cream-deep);
