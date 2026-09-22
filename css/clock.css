@@ -119,7 +119,7 @@ body.light-theme {
    just lightened for the dark hero */
 .hero-time.caption {
   margin: 20px 0 0;
-  font-size: 0.8rem; /* pinned to root, not the 1.3em hero paragraph — matches footer-copy */
+  font-size: 0.85rem; /* pinned to root, not the 1.3em hero paragraph — matches footer-copy and #register p.terms */
   color: #DFDED4;
   opacity: 0.65;
 }
