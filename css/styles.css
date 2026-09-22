@@ -361,6 +361,7 @@ footer .footer-copy {
 	max-width: 620px;
 	margin: 18px auto 0;
 	line-height: 1.7;
+	font-size: 0.8rem; /* pinned to root, not footer's 0.75em — matches .hero-time.caption */
 }
 
 /* oversized wordmark that spans the full footer width */
